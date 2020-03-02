@@ -5,66 +5,26 @@ import { useConfig } from '@dhis2/app-runtime'
 import { useDataQuery } from '@dhis2/app-runtime'
 import { Provider } from '@dhis2/app-runtime'
 import { useDataMutation } from '@dhis2/app-runtime'
+import NameForm from './NameForm'
+import AddButton from './AddButton'
 
 
-class NameForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: ''};
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(event) {
-    alert('An Org Unit was submitted ' + this.state.value);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Org Unit ID:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
-}
-
-const appConfig = {
-    baseUrl: 'https://dev.hmisocba.msf.es',
-    apiVersion: 30,
-}
-
-
-const query = {
+const initialquery = {
     events: {
         resource: 'events.json',
-        filter: {
-            startDate: '2020-01-01'
-        },
         params: {
-            orgUnit: 'wg60MeX0Txd',
+            orgUnit: 'a6WpbJ7VABY',
             ouMode: 'DESCENDANTS',
-            pageSize: 10,
-            order: 'eventDate',
-        },
-    },
+            program: 'VOEVJzwp4F7',
+            lastUpdatedDuration: '100d',
+            filter:'MZ5Ww7OZTgM:eq:First visit'
+        }
+    }
 }
 
-const query2 = {
-
-}
-
-const mutation = {
-    resource: 'indicators',
+{/*const mutation = {
+    resource: 'events',
     type: 'create',
     data: ({ name }) => ({
         name,
@@ -75,123 +35,67 @@ const mutation = {
         numerator: '#{fbfJHSPpUQD}',
         denominator: '#{h0xKKjijTdI}',
     }),
+}*/}
+
+function StoreEvents(props) {
+  const events = props.events;
+  return (
+    <ul>
+      {events.map((event) =>
+        <ListItem key={event.toString()}
+                  value={event} />
+
+      )}
+    </ul>
+  );
 }
 
-const AddButton = ({ onCreate }) => {
-    const [mutate] = useDataMutation(mutation, {
-        onComplete: onCreate,
-        variables: {
-            orgUnit: 'Pyt3nwQOO6a',
-        },
-    })
-
+function WriteMessage() {
     return (
-        <button
-            onClick={() => {
-                mutate()
-            }}
-            style={{ margin: 10 }}
-        >
-            Add Origin Events
-        </button>
-    )
+        <li> End of event </li>)
 }
 
-const AddButton2 = ({ onCreate }) => {
-    const [mutate] = useDataMutation(mutation, {
-        onComplete: onCreate,
-        variables: {
-            orgUnit: 'Pyt3nwQOO6a',
-        },
-    })
-
+function CheckParent(props) {
+    const query = {
+        orgunit: {
+            resource: 'organisationUnits/Pyt3nwQOO6a',
+        }
+    }
+    const { loading, error, data } = useDataQuery(query)
+    {JSON.parse(data)}
     return (
-        <button
-            onClick={() => {
-                mutate()
-            }}
-            style={{ margin: 10 }}
-        >
-            Delete Origin Events
-        </button>
-    )
-}
-
-const AddButton3 = ({ onCreate }) => {
-    const [mutate] = useDataMutation(mutation, {
-        onComplete: onCreate,
-        variables: {
-            orgUnit: 'Pyt3nwQOO6a',
-        },
-    })
-
-    return (
-        <button
-            onClick={() => {
-                alert('New origin events have been created!')
-                event.preventDefault();
-            }}
-            style={{ margin: 10 }}
-        >
-            Add Origin Events
-        </button>
-    )
-}
-
-const AddButton4 = ({ onCreate }) => {
-    const [mutate] = useDataMutation(mutation, {
-        onComplete: onCreate,
-        variables: {
-            orgUnit: 'Pyt3nwQOO6a',
-        },
-    })
-
-    return (
-        <button
-            onClick={() => {
-                alert('Corrections have been made and origin events have been deleted!')
-                event.preventDefault();
-            }}
-            style={{ margin: 10 }}
-        >
-            Delete Origin Events
-        </button>
-    )
-}
+        <li> HOLA </li>
+        )
+    }
 
 
 const MeningitisApp = () => {
-
-}
-
-const AskEvents = () => {
-    const { loading, error, data } = useDataQuery(query)
+    const { loading, error, data } = useDataQuery(initialquery)
     return (
             <>
-                {/*
-                <h3>Events (first 10)</h3>
-                {loading && <span>...</span>}
-                {error && <span>{`ERROR: ${error.message}`}</span>}
+                {console.log(JSON.stringify(data))}
                 {data && (
-                    <pre>
-                        {data.events.events
-                            .map(ev => ev.eventDate)
-                            .join('\n')}
-                    </pre>
-
+                <pre>
+                {data.events.events.map(ev => (
+                    <>
+                    <li>Event_id: {ev.event}</li>
+                    <li>Enrollment_id: {ev.enrollment}</li>
+                    <li>Event_date: {ev.eventDate}</li>
+                    <li>OrgUnit: {ev.orgUnit}</li>
+                    <li>{ev.dataValues[0].value}</li>
+                    {WriteMessage()}
+                    <CheckParent parent='Pyt3nwQOO6a'/>
+                    </>
+                    ))}
+                </pre>
                 )}
-                */}
-                <br></br>
-                <div><NameForm/></div>
-                <AddButton3/>
-                <AddButton4/>
             </>
 
         )
     
 }
 
-export default AskEvents
+export default MeningitisApp
 
 {/*
 const CheckEvent = props => {
