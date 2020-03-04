@@ -84,7 +84,6 @@ const MeningitisApp = () => {
                     <li>OrgUnit: {ev.orgUnit}</li>
                     <li>{ev.dataValues[0].value}</li>
                     {WriteMessage()}
-                    <CheckParent parent='Pyt3nwQOO6a'/>
                     </>
                     ))}
                 </pre>
