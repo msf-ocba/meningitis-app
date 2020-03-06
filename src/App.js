@@ -23,22 +23,8 @@ const initialquery = {
     }
 }
 
-{/*const mutation = {
-    resource: 'events',
-    type: 'create',
-    data: ({ name }) => ({
-        name,
-        shortName: name,
-        indicatorType: {
-            id: 'bWuNrMHEoZ0',
-        },
-        numerator: '#{fbfJHSPpUQD}',
-        denominator: '#{h0xKKjijTdI}',
-    }),
-}*/}
-
 function StoreEvents(props) {
-  const events = props.events;
+  const events = props.events
   return (
     <ul>
       {events.map((event) =>
@@ -50,40 +36,27 @@ function StoreEvents(props) {
   );
 }
 
-function WriteMessage() {
-    return (
-        <li> End of event </li>)
-}
-
 function CheckParent(props) {
+    const orgunit = props
     const query = {
         orgunit: {
-            resource: 'organisationUnits/Pyt3nwQOO6a',
+            resource: 'organisationUnits/${orgunit}'
         }
     }
-    const { loading, error, data } = useDataQuery(query)
-    {JSON.parse(data)}
     return (
-        <li> HOLA </li>
+        <div> {orgunit} </div>
         )
     }
-
 
 const MeningitisApp = () => {
     const { loading, error, data } = useDataQuery(initialquery)
     return (
             <>
-                {console.log(JSON.stringify(data))}
                 {data && (
                 <pre>
                 {data.events.events.map(ev => (
                     <>
-                    <li>Event_id: {ev.event}</li>
-                    <li>Enrollment_id: {ev.enrollment}</li>
-                    <li>Event_date: {ev.eventDate}</li>
-                    <li>OrgUnit: {ev.orgUnit}</li>
-                    <li>{ev.dataValues[0].value}</li>
-                    {WriteMessage()}
+                    <li>{CheckParent(ev.orgUnit)}</li>
                     </>
                     ))}
                 </pre>
