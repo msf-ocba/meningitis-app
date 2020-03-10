@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 import { Event } from './Event'
+import { HAO } from './HAO'
 
 const query = {
     events: {
@@ -26,10 +27,16 @@ export const EventList = () => {
                 <>
                 	<pre>
                         {data.events.events.map(ev => (
+                            <>
                             <Event
                                 key={ev.event}
                                 event={ev}
                             />
+                            <HAO
+                                key={ev.trackedEntityInstance}
+                                event={ev} 
+                            />
+                            </>
                         ))}
                     </pre>
             	</>
