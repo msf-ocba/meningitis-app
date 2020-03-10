@@ -9,7 +9,6 @@ export const HAO = ({ event }) => {
 	        id: `${event.trackedEntityInstance}`
 	    }
 	}
-
 	
 	const { loading, error, data, refetch } = useDataQuery(query)
     return (
