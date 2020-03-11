@@ -1,7 +1,9 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 
 export const Event = ({ event }) => {
+
+    const [parent, setParent] = useState(null)
 	
 	const query = {
 	    parent: {
@@ -11,6 +13,17 @@ export const Event = ({ event }) => {
 	}
 
 	const { loading, error, data, refetch } = useDataQuery(query)
+
+    var parent2 = null
+
+    useEffect(() => {
+        if(data){
+            setParent(parent2);
+            console.log(parent2);
+        }
+        
+    });
+
     return (
         <div>
             <li> Event: {event.event} </li>
@@ -22,8 +35,8 @@ export const Event = ({ event }) => {
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
             	<>
-                	<pre>
-                        <li> Parent: {data.parent.parent.id} </li>
+                	<pre {...parent2 = data.parent.parent.id}>
+                        <li> Parent: {parent2} </li>
                     </pre>
                 </>
             )}
