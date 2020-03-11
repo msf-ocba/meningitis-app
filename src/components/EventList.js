@@ -24,6 +24,8 @@ function GetParent ({ event }) {
     const { loading, error, data, refetch } = useDataQuery(query)
 
 
+
+
     return(
         <div>
             <li> Event: {event.event} </li>
@@ -37,6 +39,11 @@ function GetParent ({ event }) {
                 <>
                     <pre>
                         <li> Parent: {data.parent.parent.id} </li>
+                        <GetHAO
+                                key={event.event}
+                                event={event} 
+                                parent={data.parent.parent.id}
+                        />
                     </pre>
                 </> 
             )}
@@ -44,7 +51,7 @@ function GetParent ({ event }) {
     )
 }
 
-function GetHAO ({ event }) {
+function GetHAO ({ event, parent }) {
     const query = {
         attributes: {
             resource: 'trackedEntityInstances',
@@ -55,6 +62,7 @@ function GetHAO ({ event }) {
 
     return (
         <div>
+            <li> Second parent: {parent}</li>
             {loading && <span>...</span>}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
@@ -132,10 +140,6 @@ export const EventList = () => {
                             <GetParent
                                 key={ev.event}
                                 event={ev}
-                            />
-                            <GetHAO
-                                key={ev.event}
-                                event={ev} 
                             />
                             </>
                         ))}
