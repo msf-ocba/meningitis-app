@@ -2,6 +2,7 @@ import React from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 import { Event } from './Event'
 import { HAO } from './HAO'
+import { Create } from './Create'
 
 const query = {
     events: {
@@ -20,6 +21,13 @@ export const EventList = () => {
 	const { loading, error, data, refetch } = useDataQuery(query)
 	return (
 		<div>
+            <Create 
+                onCreate={() => refetch()}
+                orgUnit='JO5hBKMbsie'
+                trackedEntityInstance='tp3NE8ZuUNZ'
+                enrollment='pkKMR3mAMaK'
+                eventDate='2020-01-03T00:00:00.000'
+            />
 			<h3>Events</h3>
 			{loading && <span>...</span>}
             {error && <span>{`ERROR: ${error.message}`}</span>}
