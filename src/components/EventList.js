@@ -62,15 +62,33 @@ function GetHAO ({ event, parent }) {
 
     return (
         <div>
-            <li> Second parent: {parent}</li>
             {loading && <span>...</span>}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
                 <>
                     <pre>
                         {data.attributes.attributes.map(atr => {
-                            if(atr.attribute=="ybzHJswr3Te"){
-                                return <li> HAO: {atr.value} </li>
+                            if(atr.attribute == "ybzHJswr3Te") {
+                                if(atr.value != parent) {
+                                    return (
+                                    <>
+                                        <li> HAO: {atr.value} </li>
+                                        <CreateEvent 
+                                            onCreate={() => refetch()}
+                                            orgUnit={atr.value}
+                                            trackedEntityInstance={event.trackedEntityInstance}
+                                            enrollment={event.enrollment}
+                                            eventDate={event.eventDate}
+                                        />
+                                    </>
+                                    )
+
+                                }
+                                return (
+                                    <>
+                                        <li> HAO: {atr.value} </li>
+                                    </>
+                                )
                             }
                         })}    
                     </pre>
@@ -146,13 +164,6 @@ export const EventList = () => {
                     </pre>
             	</>
 			)}
-            <CreateEvent 
-                onCreate={() => refetch()}
-                orgUnit='JO5hBKMbsie'
-                trackedEntityInstance='tp3NE8ZuUNZ'
-                enrollment='pkKMR3mAMaK'
-                eventDate='2020-01-03T00:00:00.000'
-            />
 		</div>
 			
 	)}
