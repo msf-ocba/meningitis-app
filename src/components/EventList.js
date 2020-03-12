@@ -80,6 +80,9 @@ function GetHAO ({ event, parent }) {
                                             enrollment={event.enrollment}
                                             eventDate={event.eventDate}
                                         />
+                                        <CheckOrigin
+                                            trackedEntityInstance={event.trackedEntityInstance}
+                                        />
                                     </>
                                     )
 
@@ -97,6 +100,43 @@ function GetHAO ({ event, parent }) {
         </div>
     )
 }
+
+function CheckOrigin ({ trackedEntityInstance }) {
+    const query = {
+        origin: {
+            resource: 'events',
+            params: {
+                trackedEntityInstance: `${trackedEntityInstance}`,
+            }
+        }
+    }
+    const { loading, error, data, refetch } = useDataQuery(query)
+
+    return(
+        <div>
+            {loading && <span>...</span>}
+            {error && <span>{`ERROR: ${error.message}`}</span>}
+            {data && (
+                <>
+                    <pre>
+                        {data.origin.events.map(ev => {
+//Aquí tiene que ir el if event = origin then check orgunit and compare with HAO
+    //Si es distinto update event
+                        return(
+                        
+                            <li> EnrollmentCheckOrigin: {ev.event} </li>
+
+                        )
+                            
+                        })}
+                    </pre>
+                </>    
+            
+            )}
+        </div>
+    )
+}
+
 
 function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, eventDate }) {
     const mutation = {
@@ -140,6 +180,8 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
         </button>
     )
 }
+
+//function UpdateEvent
 
 
 export const EventList = () => {
