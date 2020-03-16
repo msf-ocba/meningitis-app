@@ -100,62 +100,44 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment}) {
                     {/**<li> Entro en CheckOrigin </li>**/}
                     <pre>
                         {data.origin.events.map(ev => {
-
-                            return(
-                                <>
-                                {
-                                    ev.dataValues.map(dataelement => {
-
-                                        if(dataelement.value == "Origin") { //if (GET Query(Is there an origin event for this enrollment already?)) then
-                                            if(ev.orgUnit != hao_enrollment) { //if (org unit from origin event <> hao_enrollment) then
-                                                return(
-                                                    <>
-                                                    <ul><li> Ya hay un evento origen y hay que actualizar </li></ul>
-                                                    <UpdateEvent 
-                                                    onCreate={() => refetch()}
-                                                    orgUnit={hao_enrollment}
-                                                    id={ev.event}
-                                                    />
-                                                    </>
-                                                )
-                                                
-                                            } else {
-                                                return(
-                                                    <>
-                                                    <ul><ul><li> Ya hay un evento origen y no hay que actualizar </li></ul></ul>
-                                                    </>
-                                                )
-                                            }
-                                        }
-                                        else if(dataelement.value == "First visit") { //CREATE Query (origin event with hao_enrollment as org unit)
-                                            return(
-                                                <>
-                                                <ul><ul><li> No hay un evento origen y hay que crear </li></ul></ul>
-                                                <CreateEvent 
-                                                onCreate={() => refetch()}
-                                                orgUnit={hao_enrollment}
-                                                trackedEntityInstance={trackedEntityInstance}
-                                                enrollment={ev.enrollment}
-                                                eventDate={ev.eventDate}
-                                                />
-                                                </>
-
-                                            )
-                                            
-                                        }
-                                        else {
-                                            return(
-                                                <>
-                                                <ul><li> No hay que hacer nada </li></ul>
-                                                </>
-                                            )
-                                        }
-                                    })
-
+                            if(ev.dataValues.some(dataelement => dataelement.value === "Origin")) { //if (GET Query(Is there an origin event for this enrollment already?)) then
+                                if(ev.orgUnit != hao_enrollment) { //if (org unit from origin event <> hao_enrollment) then
+                                    return(
+                                        <>
+                                        <ul><li> Ya hay un evento origen y hay que actualizar </li></ul>
+                                        <UpdateEvent 
+                                        onCreate={() => refetch()}
+                                        orgUnit={hao_enrollment}
+                                        id={ev.event}
+                                        />
+                                        </>
+                                    )
+                                    
+                                } else {
+                                    return(
+                                        <>
+                                        <ul><ul><li> Ya hay un evento origen y no hay que actualizar </li></ul></ul>
+                                        </>
+                                    )
                                 }
-                                </>
+                            }
+                            else { //CREATE Query (origin event with hao_enrollment as org unit)
+                                return(
+                                    <>
+                                    <ul><ul><li> No hay un evento origen y hay que crear </li></ul></ul>
+                                    <CreateEvent 
+                                    onCreate={() => refetch()}
+                                    orgUnit={hao_enrollment}
+                                    trackedEntityInstance={trackedEntityInstance}
+                                    enrollment={ev.enrollment}
+                                    eventDate={ev.eventDate}
+                                    />
+                                    </>
+
+                                )
                                 
-                            )   
+                            }    
+                              
                         })}
                     </pre>
                 </>    
