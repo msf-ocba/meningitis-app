@@ -107,11 +107,12 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
                                 if(ev.orgUnit != hao_enrollment) { //if (org unit from origin event <> hao_enrollment) then
                                     return(
                                         <>
-                                        <ul><li> Ya hay un evento origen y hay que borrar y crear </li></ul>
+                                        <li> Evento Origen: {ev.event} </li>
+                                        <ul><ul><li> Ya hay un evento origen y hay que borrar y crear </li></ul></ul>
                                         <UpdateEvent 
                                         onCreate={() => refetch()}
                                         orgUnit={hao_enrollment}
-                                        id={ev.event}
+                                        event={ev}
                                         />
                                         </>
                                     )
@@ -119,6 +120,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
                                 } else {
                                     return(
                                         <>
+
                                         <ul><ul><li> Ya hay un evento origen y no hay que actualizar </li></ul></ul>
                                         </>
                                     )
@@ -126,7 +128,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
                             }
                         })}
                         {!data.origin.events.length && (//CREATE Query (origin event with hao_enrollment as org unit)
-                            <>
+                            <>  
                                 <ul><ul><li> No hay un evento origen y hay que crear </li></ul></ul>
                                 <CreateEvent 
                                 onCreate={() => refetch()}
@@ -189,20 +191,34 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
     )
 }
 
-function UpdateEvent ({ onCreate, orgUnit, id }) {
+function UpdateEvent ({ onCreate, orgUnit, event }) { //Falta modificar esto
     const mutation = {
         resource: 'events',
         type: 'update',
         id: ({ id }) => id,
-        partial: 'true',
-        data: ({ orgUnit }) => ({
+        partial: false,
+        data: ({ orgUnit }) => ({ //Acabo de copiar esto
+            program: 'VOEVJzwp4F7',
+            event,
+            programStage: 'UFGwxeTgzZD',
             orgUnit,
+            trackedEntityInstance,
+            enrollment,
+            eventDate,
+            attributeCategoryOptions: 'rHGSHuG4Ts5',
+            dataValues: [
+            {
+                dataElement: 'MZ5Ww7OZTgM',
+                value: 'Origin'
+            }],
+
         }),
+
     }   
     const [mutate] = useDataMutation(mutation, {
         onComplete: onCreate,
-        variables: {
-            id: id,
+        variables: { //Falta incluir todo lo que se hace on the fly
+            id: event.id,
             orgUnit: orgUnit
             
         },
