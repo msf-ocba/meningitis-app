@@ -63,6 +63,9 @@ function GetHAO ({ event, parent }) {
                                         <CheckOrigin //if (GET Query(Is there an origin event for this enrollment already?)) then
                                             trackedEntityInstance={event.trackedEntityInstance}
                                             hao_enrollment={atr.value}
+                                            enrollment_id={event.enrollment}
+                                            eventDate={event.eventDate}
+
                                         />
                                     </>
                                     )
@@ -76,27 +79,27 @@ function GetHAO ({ event, parent }) {
     )
 }
 
-function CheckOrigin ({ trackedEntityInstance, hao_enrollment}) {
+function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, eventDate}) {
     const query = {
         origin: {
             resource: 'events',
             params: {
                 trackedEntityInstance: `${trackedEntityInstance}`,
+                filter:'MZ5Ww7OZTgM:eq:Origin'
             }
         }
     }
     const { loading, error, data, refetch } = useDataQuery(query)
-
     return(
         <div>
             {/**<li> Entro en CheckOrigin </li>
             <li> TrackedentityInstance: {trackedEntityInstance} </li>**/}
+            <ul><li> HAO org unit: {hao_enrollment} </li></ul>
+            <ul><li> Los campos no coinciden </li></ul>
             {loading && <span>...</span>}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
                 <>
-                <ul><li> HAO org unit: {hao_enrollment} </li></ul>
-                <ul><li> Los campos no coinciden </li></ul>
                     {/**<li> Entro en CheckOrigin </li>**/}
                     <pre>
                         {data.origin.events.map(ev => {
@@ -104,7 +107,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment}) {
                                 if(ev.orgUnit != hao_enrollment) { //if (org unit from origin event <> hao_enrollment) then
                                     return(
                                         <>
-                                        <ul><li> Ya hay un evento origen y hay que actualizar </li></ul>
+                                        <ul><li> Ya hay un evento origen y hay que borrar y crear </li></ul>
                                         <UpdateEvent 
                                         onCreate={() => refetch()}
                                         orgUnit={hao_enrollment}
@@ -121,24 +124,19 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment}) {
                                     )
                                 }
                             }
-                            else { //CREATE Query (origin event with hao_enrollment as org unit)
-                                return(
-                                    <>
-                                    <ul><ul><li> No hay un evento origen y hay que crear </li></ul></ul>
-                                    <CreateEvent 
-                                    onCreate={() => refetch()}
-                                    orgUnit={hao_enrollment}
-                                    trackedEntityInstance={trackedEntityInstance}
-                                    enrollment={ev.enrollment}
-                                    eventDate={ev.eventDate}
-                                    />
-                                    </>
-
-                                )
-                                
-                            }    
-                              
                         })}
+                        {!data.origin.events.length && (//CREATE Query (origin event with hao_enrollment as org unit)
+                            <>
+                                <ul><ul><li> No hay un evento origen y hay que crear </li></ul></ul>
+                                <CreateEvent 
+                                onCreate={() => refetch()}
+                                orgUnit={hao_enrollment}
+                                trackedEntityInstance={trackedEntityInstance}
+                                enrollment={enrollment_id}
+                                eventDate={eventDate}
+                                />
+                            </>
+                        )}
                     </pre>
                 </>    
             
@@ -193,11 +191,9 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
 
 function UpdateEvent ({ onCreate, orgUnit, id }) {
     const mutation = {
-        type: 'update',
         resource: 'events',
-        id: ({ id }) => ({
-            id   
-        }),
+        type: 'update',
+        id: ({ id }) => id,
         partial: 'true',
         data: ({ orgUnit }) => ({
             orgUnit,
@@ -206,8 +202,9 @@ function UpdateEvent ({ onCreate, orgUnit, id }) {
     const [mutate] = useDataMutation(mutation, {
         onComplete: onCreate,
         variables: {
-            orgUnit: orgUnit,
-            id: id
+            id: id,
+            orgUnit: orgUnit
+            
         },
     })
 
