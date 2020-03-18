@@ -12,12 +12,7 @@ function GetParent ({ event }) {
     const { loading, error, data, refetch } = useDataQuery(query)
 
     return(
-        <div>
-            {/**<li> Event: {event.event} </li>
-            <li> EventDate: {event.eventDate} </li>
-            <li> Enrollment: {event.enrollment} </li>
-            <li> OrgUnit: {event.orgUnit} </li>**/}
-            
+        <div>  
             {loading && <span>...</span>}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
@@ -47,7 +42,6 @@ function GetHAO ({ event, parent }) {
 
     return (
         <div>
-            {/**<li> Entro en GETHAO </li>**/}
             {loading && <span>...</span>}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
@@ -55,11 +49,10 @@ function GetHAO ({ event, parent }) {
                     <pre>
                         {data.attributes.attributes.map(atr => {
                             
-                            if(atr.attribute == "ybzHJswr3Te") { //If attribute is HAO
-                                if(atr.value != parent) { //if parent_orgunit <> hao_enrollment then
+                            if(atr.attribute == "ybzHJswr3Te") 
+                                if(atr.value != parent) 
                                     return (
                                     <>
-                                        {/**<li> HAO: {atr.value} </li>**/}
                                         <CheckOrigin //if (GET Query(Is there an origin event for this enrollment already?)) then
                                             trackedEntityInstance={event.trackedEntityInstance}
                                             hao_enrollment={atr.value}
@@ -70,8 +63,8 @@ function GetHAO ({ event, parent }) {
                                     </>
                                     )
                                 }
-                            }
-                        })}    
+                            
+                        )} 
                     </pre>
                 </> 
             )}
@@ -92,25 +85,22 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
     const { loading, error, data, refetch } = useDataQuery(query)
     return(
         <div>
-            {/**<li> Entro en CheckOrigin </li>
-            <li> TrackedentityInstance: {trackedEntityInstance} </li>**/}
             <ul><li> HAO org unit: {hao_enrollment} </li></ul>
-            <ul><li> Los campos no coinciden </li></ul>
+            <ul><li> Parent org unit and HAO org unit doesn't match </li></ul>
             {loading && <span>...</span>}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
                 <>
-                    {/**<li> Entro en CheckOrigin </li>**/}
                     <pre>
                         {data.origin.events.map(ev => {
                             if(ev.dataValues.some(dataelement => dataelement.value === "Origin")) { //if (GET Query(Is there an origin event for this enrollment already?)) then
                                 if(ev.orgUnit != hao_enrollment) { //if (org unit from origin event <> hao_enrollment) then
                                     return(
                                         <>
-                                        <li> Evento Origen: {ev.event} </li>
-                                        <ul><ul><li> Ya hay un evento origen y hay que borrar y crear </li></ul></ul>
+                                        <li> Origin Event: {ev.event} </li>
+                                        <ul><ul><li> There is an origin event already created but we need to update its org unit </li></ul></ul>
                                         <UpdateEvent 
-                                        onCreate={() => refetch()}
+                                        onUpdate={() => refetch()}
                                         orgUnit={hao_enrollment}
                                         ev={ev}
                                         />
@@ -121,7 +111,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
                                     return(
                                         <>
 
-                                        <ul><ul><li> Ya hay un evento origen y no hay que actualizar </li></ul></ul>
+                                        <ul><ul><li> There is an origin event already created and we don't need to create or update </li></ul></ul>
                                         </>
                                     )
                                 }
@@ -129,7 +119,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
                         })}
                         {!data.origin.events.length && (//CREATE Query (origin event with hao_enrollment as org unit)
                             <>  
-                                <ul><ul><li> No hay un evento origen y hay que crear </li></ul></ul>
+                                <ul><ul><li> There is not an origin event already created so we need to create one </li></ul></ul>
                                 <CreateEvent 
                                 onCreate={() => refetch()}
                                 orgUnit={hao_enrollment}
@@ -180,24 +170,28 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
     })
 
     return (
+        <>
         <button
             onClick={() => {
                 mutate()
+                console.log("Event created!!")
             }}
             style={{ margin: 10 }}
         >
             + Add Origin
         </button>
+        
+        </>
     )
 }
 
-function UpdateEvent ({ onCreate, orgUnit, ev }) { //Falta modificar esto
+function UpdateEvent ({ onUpdate, orgUnit, ev }) { 
     const mutation = {
         resource: 'events',
         type: 'update',
         id: ({ id }) => id,
         partial: false,
-        data: ({ event, orgUnit, trackedEntityInstance, enrollment, eventDate }) => ({ //Acabo de copiar esto
+        data: ({ event, orgUnit, trackedEntityInstance, enrollment, eventDate }) => ({ 
             program: 'VOEVJzwp4F7',
             event,
             programStage: 'UFGwxeTgzZD',
@@ -216,8 +210,8 @@ function UpdateEvent ({ onCreate, orgUnit, ev }) { //Falta modificar esto
 
     }   
     const [mutate] = useDataMutation(mutation, {
-        onComplete: onCreate,
-        variables: { //Falta incluir todo lo que se hace on the fly
+        onComplete: onUpdate,
+        variables: { 
             id: ev.event,
             event: ev.event,
             orgUnit: orgUnit,
@@ -228,14 +222,18 @@ function UpdateEvent ({ onCreate, orgUnit, ev }) { //Falta modificar esto
     })
 
     return (
+        <>
         <button
             onClick={() => {
                 mutate()
+                console.log("Event " + ev.event + " updated!!")
             }}
             style={{ margin: 10 }}
         >
             + Update Origin
         </button>
+        
+        </>
     )
 }
 
@@ -258,7 +256,7 @@ export const EventList = () => {
 
 	return (
 		<div>
-			<h3>Events</h3>
+			<h3>Event List</h3>
 			{loading && <span>...</span>}
             {error && <span>{`ERROR: ${error.message}`}</span>}
             {data && (
@@ -266,8 +264,7 @@ export const EventList = () => {
                 	<pre>
                         {data.events.events.map(ev => (
                             <>
-                            {console.log("Evento: " + ev.event)}
-                            <li> Evento: {ev.event} </li>
+                            <li> First Visit Event: {ev.event} </li>
                             <GetParent
                                 key={ev.event}
                                 event={ev}
