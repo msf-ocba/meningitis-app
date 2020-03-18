@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDataQuery, useDataMutation } from '@dhis2/app-runtime'
 
 
@@ -169,8 +169,14 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
         },
     })
 
+    useEffect(() => {
+        mutate()
+        console.log("Event created!!")
+    })
+
     return (
         <>
+        {/**
         <button
             onClick={() => {
                 mutate()
@@ -180,7 +186,7 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
         >
             + Add Origin
         </button>
-        
+        **/}
         </>
     )
 }
@@ -221,8 +227,16 @@ function UpdateEvent ({ onUpdate, orgUnit, ev }) {
         },
     })
 
+    useEffect(() => {
+        mutate()
+        console.log("Event " + ev.event + " updated!!")
+    })
+
     return (
+
+
         <>
+        {/**
         <button
             onClick={() => {
                 mutate()
@@ -232,7 +246,7 @@ function UpdateEvent ({ onUpdate, orgUnit, ev }) {
         >
             + Update Origin
         </button>
-        
+        **/}
         </>
     )
 }
