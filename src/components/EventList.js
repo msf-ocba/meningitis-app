@@ -112,7 +112,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
                                         <UpdateEvent 
                                         onCreate={() => refetch()}
                                         orgUnit={hao_enrollment}
-                                        event={ev}
+                                        ev={ev}
                                         />
                                         </>
                                     )
@@ -191,13 +191,13 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
     )
 }
 
-function UpdateEvent ({ onCreate, orgUnit, event }) { //Falta modificar esto
+function UpdateEvent ({ onCreate, orgUnit, ev }) { //Falta modificar esto
     const mutation = {
         resource: 'events',
         type: 'update',
         id: ({ id }) => id,
         partial: false,
-        data: ({ orgUnit }) => ({ //Acabo de copiar esto
+        data: ({ event, orgUnit, trackedEntityInstance, enrollment, eventDate }) => ({ //Acabo de copiar esto
             program: 'VOEVJzwp4F7',
             event,
             programStage: 'UFGwxeTgzZD',
@@ -218,9 +218,12 @@ function UpdateEvent ({ onCreate, orgUnit, event }) { //Falta modificar esto
     const [mutate] = useDataMutation(mutation, {
         onComplete: onCreate,
         variables: { //Falta incluir todo lo que se hace on the fly
-            id: event.id,
-            orgUnit: orgUnit
-            
+            id: ev.event,
+            event: ev.event,
+            orgUnit: orgUnit,
+            trackedEntityInstance: ev.trackedEntityInstance,
+            enrollment: ev.enrollment,
+            eventDate: ev.eventDate
         },
     })
 
