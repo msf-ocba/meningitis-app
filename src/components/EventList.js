@@ -230,8 +230,9 @@ const query = {
             orgUnit: 'wg60MeX0Txd',
             ouMode: 'DESCENDANTS',
             program: 'VOEVJzwp4F7',
-            lastUpdatedDuration: '100d',
-            filter:'MZ5Ww7OZTgM:eq:First visit'
+            lastUpdatedDuration: '300d',
+            filter:'MZ5Ww7OZTgM:eq:First visit',
+            skipPaging:'true'
         }
     }
 }
