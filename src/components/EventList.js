@@ -99,8 +99,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
                                         <>
                                         <li> Origin Event: {ev.event} </li>
                                         <ul><ul><li> There is an origin event already created but we need to update its org unit </li></ul></ul>
-                                        <UpdateEvent 
-                                        onUpdate={() => refetch()}
+                                        <UpdateEvent
                                         orgUnit={hao_enrollment}
                                         ev={ev}
                                         />
@@ -120,8 +119,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
                         {!data.origin.events.length && (//CREATE Query (origin event with hao_enrollment as org unit)
                             <>  
                                 <ul><ul><li> There is not an origin event already created so we need to create one </li></ul></ul>
-                                <CreateEvent 
-                                onCreate={() => refetch()}
+                                <CreateEvent
                                 orgUnit={hao_enrollment}
                                 trackedEntityInstance={trackedEntityInstance}
                                 enrollment={enrollment_id}
@@ -138,7 +136,7 @@ function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, ev
 }
 
 
-function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, eventDate }) {
+function CreateEvent ({ orgUnit, trackedEntityInstance, enrollment, eventDate }) {
     const mutation = {
     resource: 'events',
     type: 'create',
@@ -160,7 +158,6 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
     
     }   
     const [mutate] = useDataMutation(mutation, {
-        onComplete: onCreate,
         variables: {
             orgUnit: orgUnit,
             trackedEntityInstance: trackedEntityInstance,
@@ -172,26 +169,15 @@ function CreateEvent ({ onCreate, orgUnit, trackedEntityInstance, enrollment, ev
     useEffect(() => {
         mutate()
         console.log("Event created!!")
-    })
+    },[])
 
     return (
         <>
-        {/**
-        <button
-            onClick={() => {
-                mutate()
-                console.log("Event created!!")
-            }}
-            style={{ margin: 10 }}
-        >
-            + Add Origin
-        </button>
-        **/}
         </>
     )
 }
 
-function UpdateEvent ({ onUpdate, orgUnit, ev }) { 
+function UpdateEvent ({ orgUnit, ev }) { 
     const mutation = {
         resource: 'events',
         type: 'update',
@@ -216,7 +202,6 @@ function UpdateEvent ({ onUpdate, orgUnit, ev }) {
 
     }   
     const [mutate] = useDataMutation(mutation, {
-        onComplete: onUpdate,
         variables: { 
             id: ev.event,
             event: ev.event,
@@ -230,23 +215,10 @@ function UpdateEvent ({ onUpdate, orgUnit, ev }) {
     useEffect(() => {
         mutate()
         console.log("Event " + ev.event + " updated!!")
-    })
+    },[])
 
     return (
-
-
         <>
-        {/**
-        <button
-            onClick={() => {
-                mutate()
-                console.log("Event " + ev.event + " updated!!")
-            }}
-            style={{ margin: 10 }}
-        >
-            + Update Origin
-        </button>
-        **/}
         </>
     )
 }
@@ -255,7 +227,7 @@ const query = {
     events: {
         resource: 'events.json',
         params: {
-            orgUnit: 'a6WpbJ7VABY',
+            orgUnit: 'wg60MeX0Txd',
             ouMode: 'DESCENDANTS',
             program: 'VOEVJzwp4F7',
             lastUpdatedDuration: '100d',
