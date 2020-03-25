@@ -157,7 +157,7 @@ function CreateEvent ({ orgUnit, trackedEntityInstance, enrollment, eventDate })
     }),
     
     }   
-    const [mutate] = useDataMutation(mutation, {
+    const [mutate, {data}] = useDataMutation(mutation, {
         variables: {
             orgUnit: orgUnit,
             trackedEntityInstance: trackedEntityInstance,
@@ -168,7 +168,7 @@ function CreateEvent ({ orgUnit, trackedEntityInstance, enrollment, eventDate })
 
     useEffect(() => {
         mutate()
-        console.log("Event created!!")
+        console.log("Event with TEI_ID: " + trackedEntityInstance + " has been created!!")
     },[])
 
     return (
