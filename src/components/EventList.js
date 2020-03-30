@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDataQuery, useDataMutation } from '@dhis2/app-runtime'
+import CheckOrigin from './CheckOrigin'
 
 
 function GetParent ({ event }) {
@@ -53,7 +54,7 @@ function GetHAO ({ event, parent }) {
                                 if(atr.value != parent) 
                                     return (
                                     <>
-                                        <CheckOrigin //if (GET Query(Is there an origin event for this enrollment already?)) then
+                                        <CheckOrigin2 //if (GET Query(Is there an origin event for this enrollment already?)) then
                                             trackedEntityInstance={event.trackedEntityInstance}
                                             hao_enrollment={atr.value}
                                             enrollment_id={event.enrollment}
@@ -72,7 +73,7 @@ function GetHAO ({ event, parent }) {
     )
 }
 
-function CheckOrigin ({ trackedEntityInstance, hao_enrollment, enrollment_id, eventDate}) {
+function CheckOrigin2 ({ trackedEntityInstance, hao_enrollment, enrollment_id, eventDate}) {
     const query = {
         origin: {
             resource: 'events',
@@ -252,7 +253,7 @@ export const EventList = () => {
                         {data.events.events.map(ev => (
                             <>
                             <li> First Visit Event: {ev.event} </li>
-                            <GetParent
+                            <CheckOrigin
                                 key={ev.event}
                                 event={ev}
                             />
