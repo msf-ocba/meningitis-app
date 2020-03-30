@@ -10,24 +10,49 @@ DHIS2 standard WebApp which controls the generation and maintenance of Origin's 
 
 ## Algorithm used in the app
 
-	Initial_request = GET Query(Initial request of events)
+	Initial request
 
-	While (There are events in the initial request)
-	
 		For each event
 
-			StoreInfo(Parse the fields of interest from Initial_request)
+			if(CheckOrigin)									//It has origin event
 
-			parent_orgunit = GET Query(Ask for the parent id of the org unit of the event - Health area level)
-			hao_enrollment = GET Query(Ask for the HAO filled in the HAO field in the enrollment)
+				if(CheckHAO)								//It has the HAO field filled
 
-			if parent_orgunit <> hao_enrollment then
-				if (GET Query(Is there an origin event for this enrollment already?)) then
-					if (org unit from origin event <> hao_enrollment) then
-						DELETE Query (old origin event)
-						CREATE Query (origin event with hao_enrollment as org unit)
-				else
-					CREATE Query (origin event with hao_enrollment as org unit)
+					if(HAO != parent_orgUnit)				//HAO and parent_orgUnit doesn't match
+
+						if(originEvent_orgUnit != HAO)		//originEvent_orgUnit and HAO doesnt't match
+
+							UpdateOrigin()
+
+						else								//originEvent_orgUnit and HAO do match
+
+							DO NOTHING
+
+
+					else									//HAO and parent_orgUnit do match
+
+						DeleteOrigin()
+
+				else										//It has the HAO field not filled
+
+					DeleteOrigin()
+
+
+			else 											//It has not origin event
+
+				if(CheckHAO)  								//It has the HAO field filled
+
+					if(HAO != parent_orgUnit) 				//HAO and parent_orgUnit doesn't match
+
+						CreateOrigin()
+
+					else 									//HAO and parent_orgUnit do match
+						
+						DO NOTHING
+				
+				else										//It has the HAO field not filled
+					
+					DO NOTHING
 
 ## Author
 
