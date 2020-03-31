@@ -33,9 +33,10 @@ const CheckOrigin = ({ event }) => {
                     			<>
                     			<ul><li> Origin Event </li></ul>
                     			<CheckHAO
-                    				key={ev.event}
-                    				event={ev}
+                    				key={event.event}
+                    				event={event}
                     				origin={true}
+                    				eventOrigin={ev}
                     			/>
                     			</>
                 			)
@@ -48,6 +49,7 @@ const CheckOrigin = ({ event }) => {
                     				key={event.event}
                     				event={event}
                     				origin={false}
+                    				eventOrigin={null}
                 			/>
                     		</>
 						)}

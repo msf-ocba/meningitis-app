@@ -10,6 +10,8 @@ DHIS2 standard WebApp which controls the generation and maintenance of Origin's 
 
 ## Algorithm used in the app
 
+### Origin event control
+
 	Initial request
 
 		For each event
@@ -32,6 +34,14 @@ DHIS2 standard WebApp which controls the generation and maintenance of Origin's 
 						DO NOTHING
 				else						//It has the HAO field not filled
 					DO NOTHING
+
+### Data element HAO control
+
+	For each event
+		if(CheckHAO)
+			Does...? -> Yes  	//Program Rule
+		else
+			Does...? -> Yes/No 	//App
 
 ## Author
 
