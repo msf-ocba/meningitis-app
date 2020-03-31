@@ -17,7 +17,7 @@ DHIS2 standard WebApp which controls the generation and maintenance of Origin's 
 		For each event
 			if(CheckOrigin)						//It has origin event
 				if(CheckHAO)					//It has the HAO field filled
-					if(CheckParent)		//HAO and parent_orgUnit doesn't match
+					if(CheckParent)				//HAO and parent_orgUnit doesn't match
 						if(originEvent_orgUnit != HAO)	//originEvent_orgUnit and HAO doesnt't match
 							UpdateOrigin()
 						else				//originEvent_orgUnit and HAO do match
@@ -28,7 +28,7 @@ DHIS2 standard WebApp which controls the generation and maintenance of Origin's 
 					DeleteOrigin()
 			else 							//It has not origin event
 				if(CheckHAO)  					//It has the HAO field filled
-					if(CheckParent) 		//HAO and parent_orgUnit doesn't match
+					if(CheckParent) 			//HAO and parent_orgUnit doesn't match
 						CreateOrigin()
 					else 					//HAO and parent_orgUnit do match
 						DO NOTHING
