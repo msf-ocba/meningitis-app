@@ -20,18 +20,36 @@ DHIS2 standard WebApp which controls the generation and maintenance of Origin's 
 					if(CheckParent)				//HAO and parent_orgUnit doesn't match
 						if(originEvent_orgUnit != HAO)	//originEvent_orgUnit and HAO doesnt't match
 							UpdateOrigin()
+							if(dataElementOrigin == true)
+								UpdateFirstVisit()
+							else
+								DO NOTHING
 						else				//originEvent_orgUnit and HAO do match
-							DO NOTHING
+							if(dataElementOrigin == true)
+								UpdateFirstVisit()
+							else
+								DO NOTHING
 					else					//HAO and parent_orgUnit do match
 						DeleteOrigin()
+						if(dataElementOrigin == false)
+								UpdateFirstVisit()
+						else
+							DO NOTHING
 				else						//It has the HAO field not filled
 					DeleteOrigin()
 			else 							//It has not origin event
 				if(CheckHAO)  					//It has the HAO field filled
 					if(CheckParent) 			//HAO and parent_orgUnit doesn't match
 						CreateOrigin()
+						if(dataElementOrigin == true)
+								UpdateFirstVisit()
+						else
+							DO NOTHING
 					else 					//HAO and parent_orgUnit do match
-						DO NOTHING
+						if(dataElementOrigin == false)
+								UpdateFirstVisit()
+						else
+							DO NOTHING
 				else						//It has the HAO field not filled
 					DO NOTHING
 
