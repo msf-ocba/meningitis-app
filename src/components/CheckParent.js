@@ -40,6 +40,15 @@ export const CheckParent = ({event, origin, eventOrigin, haoOrgunit}) => {
 	                    						orgUnit={haoOrgunit}
 	                    						ev={eventOrigin}
 	                    					/>
+	                    					{event.dataValues.map(dataelement => {
+	                    						if(dataelement.dataElement == 'S2GcSStnM9p') {
+	                    							if(dataelement.value == 'true'){
+	                    								return(
+	                    									<ul><ul><ul><ul><li> UpdateFirstVisit() </li></ul></ul></ul></ul>
+                										)
+	                    							}
+	                    						}
+	                    					})}
                 						</>
                 						)
                     				} 
@@ -51,6 +60,15 @@ export const CheckParent = ({event, origin, eventOrigin, haoOrgunit}) => {
 	                    					<DeleteOrigin 
 	                    						id={eventOrigin.event}
 	                    					/>
+	                    					{event.dataValues.map(dataelement => {
+	                    						if(dataelement.dataElement == 'S2GcSStnM9p') {
+	                    							if(dataelement.value == 'false'){
+	                    								return(
+	                    									<ul><ul><ul><ul><li> UpdateFirstVisit() </li></ul></ul></ul></ul>
+                										)
+	                    							}
+	                    						}
+	                    					})}
                 						</>
                 					)
                     			}
