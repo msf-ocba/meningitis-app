@@ -6,14 +6,14 @@ import { useDataMutation } from '@dhis2/app-runtime'
 **/
 
 
-export const UpdateFirstVisit = ({ dataElementOrigin, ev }) => {
+export const UpdateFirstVisit = ({ dataElementOrigin, dataElementReferral, ev }) => {
 
 	const mutation = {
         resource: 'events',
         type: 'update',
         id: ({ id }) => id,
         partial: false,
-        data: ({ event, orgUnit, trackedEntityInstance, enrollment, eventDate, dataElementOrigin }) => ({ 
+        data: ({ event, orgUnit, trackedEntityInstance, enrollment, eventDate, dataElementOrigin, dataElementReferral }) => ({ 
             program: 'VOEVJzwp4F7',
             event,
             programStage: 'UFGwxeTgzZD',
@@ -30,6 +30,10 @@ export const UpdateFirstVisit = ({ dataElementOrigin, ev }) => {
             {
                 dataElement: 'S2GcSStnM9p',
                 value: dataElementOrigin
+            },
+            {
+                dataElement: 'FyftDLj4iSy',
+                value: dataElementReferral
             }],
 
         }),
@@ -43,7 +47,8 @@ export const UpdateFirstVisit = ({ dataElementOrigin, ev }) => {
             trackedEntityInstance: ev.trackedEntityInstance,
             enrollment: ev.enrollment,
             eventDate: ev.eventDate,
-            dataElementOrigin: dataElementOrigin
+            dataElementOrigin: dataElementOrigin,
+            dataElementReferral: dataElementReferral
         },
     })
 
@@ -54,6 +59,7 @@ export const UpdateFirstVisit = ({ dataElementOrigin, ev }) => {
 
     return (
         <>
+            <ul><ul><ul><ul><li> DataElementOrigin {dataElementOrigin} and DataElementReferral {dataElementReferral} </li></ul></ul></ul></ul>
         </>
     )
 }

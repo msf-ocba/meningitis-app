@@ -28,6 +28,7 @@ export const EventList = () => {
             {data && (
                 <>
                 	<pre>
+                        
                         {data.events.events.map(ev => (
                             <>
                             <li> First Visit Event: {ev.event} </li>
@@ -37,6 +38,7 @@ export const EventList = () => {
                             />
                             </>
                         ))}
+                        
                     </pre>
             	</>
 			)}

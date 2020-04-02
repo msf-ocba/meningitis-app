@@ -25,6 +25,8 @@ const CheckOrigin = ({ event }) => {
 
 	return (
 		<div>
+			{loading && <span>...</span>}
+            {error && <span>{`ERROR: ${error.message}`}</span>}
 			{data && (
                 <>
                     <pre>
