@@ -3,7 +3,7 @@ import { useDataQuery } from "@dhis2/app-runtime";
 import CreateOrigin from "./CreateOrigin";
 import UpdateOrigin from "./UpdateOrigin";
 import DeleteOrigin from "./DeleteOrigin";
-import UpdateFirstVisit from "./UpdateFirstVisit";
+import CheckDataElements from "./CheckDataElements";
 
 /**
 
@@ -23,7 +23,7 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
   const { loading, error, data, refetch } = useDataQuery(query);
 
   return (
-    <div>
+    <>
       {loading && <span>...</span>}
       {error && <span>{`ERROR: ${error.message}`}</span>}
       {data && origin && (
@@ -59,180 +59,14 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                           </ul>
                         </ul>
                         <UpdateOrigin orgUnit={haoOrgunit} ev={eventOrigin} />
-                        {event.dataValues.map((dataelement) => {
-                          if (dataelement.dataElement == "S2GcSStnM9p") {
-                            if (dataelement.value == "true") {
-                              return (
-                                <>
-                                  {event.dataValues.map((dataelementR) => {
-                                    //Referral filled
-                                    if (
-                                      dataelementR.dataElement == "FyftDLj4iSy"
-                                    ) {
-                                      if (dataelementR.value == "true") {
-                                        return (
-                                          <>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <ul>
-                                                    <li>
-                                                      {" "}
-                                                      UpdateFirstVisit(){" "}
-                                                    </li>
-                                                  </ul>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                            <UpdateFirstVisit
-                                              dataElementOrigin="false"
-                                              dataElementReferral="true"
-                                              ev={event}
-                                            />
-                                          </>
-                                        );
-                                      } else {
-                                        return (
-                                          <>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <ul>
-                                                    <li>
-                                                      {" "}
-                                                      UpdateFirstVisit(){" "}
-                                                    </li>
-                                                  </ul>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                            <UpdateFirstVisit
-                                              dataElementOrigin="false"
-                                              dataElementReferral="false"
-                                              ev={event}
-                                            />
-                                          </>
-                                        );
-                                      }
-                                    }
-                                  })}
-
-                                  {!event.dataValues.some(
-                                    (dataElementC) =>
-                                      dataElementC.dataElement === "FyftDLj4iSy"
-                                  ) && ( //Referral not filled
-                                    <>
-                                      <ul>
-                                        <ul>
-                                          <ul>
-                                            <ul>
-                                              <li> UpdateFirstVisit() </li>
-                                            </ul>
-                                          </ul>
-                                        </ul>
-                                      </ul>
-                                      <UpdateFirstVisit
-                                        dataElementOrigin="false"
-                                        dataElementReferral={null}
-                                        ev={event}
-                                      />
-                                    </>
-                                  )}
-                                </>
-                              );
-                            }
-                          }
-                        })}
+                        <CheckDataElements event={event} origin="false" />
                       </>
                     );
                   } else {
                     //If origin doesn't need an update
                     return (
                       <>
-                        {event.dataValues.map((dataelement) => {
-                          if (dataelement.dataElement == "S2GcSStnM9p") {
-                            if (dataelement.value == "true") {
-                              return (
-                                <>
-                                  {event.dataValues.map((dataelementR) => {
-                                    //Referral filled
-                                    if (
-                                      dataelementR.dataElement == "FyftDLj4iSy"
-                                    ) {
-                                      if (dataelementR.value == "true") {
-                                        return (
-                                          <>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <ul>
-                                                    <li>
-                                                      {" "}
-                                                      UpdateFirstVisit(){" "}
-                                                    </li>
-                                                  </ul>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                            <UpdateFirstVisit
-                                              dataElementOrigin="false"
-                                              dataElementReferral="true"
-                                              ev={event}
-                                            />
-                                          </>
-                                        );
-                                      } else {
-                                        return (
-                                          <>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <ul>
-                                                    <li>
-                                                      {" "}
-                                                      UpdateFirstVisit(){" "}
-                                                    </li>
-                                                  </ul>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                            <UpdateFirstVisit
-                                              dataElementOrigin="false"
-                                              dataElementReferral="false"
-                                              ev={event}
-                                            />
-                                          </>
-                                        );
-                                      }
-                                    }
-                                  })}
-
-                                  {!event.dataValues.some(
-                                    (dataElementC) =>
-                                      dataElementC.dataElement === "FyftDLj4iSy"
-                                  ) && ( //Referral not filled
-                                    <>
-                                      <ul>
-                                        <ul>
-                                          <ul>
-                                            <ul>
-                                              <li> UpdateFirstVisit() </li>
-                                            </ul>
-                                          </ul>
-                                        </ul>
-                                      </ul>
-                                      <UpdateFirstVisit
-                                        dataElementOrigin="false"
-                                        dataElementReferral={null}
-                                        ev={event}
-                                      />
-                                    </>
-                                  )}
-                                </>
-                              );
-                            }
-                          }
-                        })}
+                        <CheckDataElements event={event} origin="false" />
                       </>
                     );
                   }
@@ -262,84 +96,7 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                         </ul>
                       </ul>
                       <DeleteOrigin id={eventOrigin.event} />
-                      {event.dataValues.map((dataelement) => {
-                        if (dataelement.dataElement == "S2GcSStnM9p") {
-                          if (dataelement.value == "false") {
-                            return (
-                              <>
-                                {event.dataValues.map((dataelementR) => {
-                                  //Referral filled
-                                  if (
-                                    dataelementR.dataElement == "FyftDLj4iSy"
-                                  ) {
-                                    if (dataelementR.value == "true") {
-                                      return (
-                                        <>
-                                          <ul>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <li> UpdateFirstVisit() </li>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                          </ul>
-                                          <UpdateFirstVisit
-                                            dataElementOrigin="true"
-                                            dataElementReferral="true"
-                                            ev={event}
-                                          />
-                                        </>
-                                      );
-                                    } else {
-                                      return (
-                                        <>
-                                          <ul>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <li> UpdateFirstVisit() </li>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                          </ul>
-                                          <UpdateFirstVisit
-                                            dataElementOrigin="true"
-                                            dataElementReferral="false"
-                                            ev={event}
-                                          />
-                                        </>
-                                      );
-                                    }
-                                  }
-                                })}
-
-                                {!event.dataValues.some(
-                                  (dataElementC) =>
-                                    dataElementC.dataElement === "FyftDLj4iSy"
-                                ) && ( //Referral not filled
-                                  <>
-                                    <ul>
-                                      <ul>
-                                        <ul>
-                                          <ul>
-                                            <li> UpdateFirstVisit() </li>
-                                          </ul>
-                                        </ul>
-                                      </ul>
-                                    </ul>
-                                    <UpdateFirstVisit
-                                      dataElementOrigin="true"
-                                      dataElementReferral={null}
-                                      ev={event}
-                                    />
-                                  </>
-                                )}
-                              </>
-                            );
-                          }
-                        }
-                      })}
+                      <CheckDataElements event={event} origin="true" />
                     </>
                   );
                 }
@@ -384,84 +141,7 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                         enrollment={event.enrollment}
                         eventDate={event.eventDate}
                       />
-                      {event.dataValues.map((dataelement) => {
-                        if (dataelement.dataElement == "S2GcSStnM9p") {
-                          if (dataelement.value == "true") {
-                            return (
-                              <>
-                                {event.dataValues.map((dataelementR) => {
-                                  //Referral filled
-                                  if (
-                                    dataelementR.dataElement == "FyftDLj4iSy"
-                                  ) {
-                                    if (dataelementR.value == "true") {
-                                      return (
-                                        <>
-                                          <ul>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <li> UpdateFirstVisit() </li>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                          </ul>
-                                          <UpdateFirstVisit
-                                            dataElementOrigin="false"
-                                            dataElementReferral="true"
-                                            ev={event}
-                                          />
-                                        </>
-                                      );
-                                    } else {
-                                      return (
-                                        <>
-                                          <ul>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <li> UpdateFirstVisit() </li>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                          </ul>
-                                          <UpdateFirstVisit
-                                            dataElementOrigin="false"
-                                            dataElementReferral="false"
-                                            ev={event}
-                                          />
-                                        </>
-                                      );
-                                    }
-                                  }
-                                })}
-
-                                {!event.dataValues.some(
-                                  (dataElementC) =>
-                                    dataElementC.dataElement === "FyftDLj4iSy"
-                                ) && ( //Referral not filled
-                                  <>
-                                    <ul>
-                                      <ul>
-                                        <ul>
-                                          <ul>
-                                            <li> UpdateFirstVisit() </li>
-                                          </ul>
-                                        </ul>
-                                      </ul>
-                                    </ul>
-                                    <UpdateFirstVisit
-                                      dataElementOrigin="false"
-                                      dataElementReferral={null}
-                                      ev={event}
-                                    />
-                                  </>
-                                )}
-                              </>
-                            );
-                          }
-                        }
-                      })}
+                      <CheckDataElements event={event} origin="false" />
                     </>
                   );
                 } else {
@@ -488,84 +168,7 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                           </ul>
                         </ul>
                       </ul>
-                      {event.dataValues.map((dataelement) => {
-                        if (dataelement.dataElement == "S2GcSStnM9p") {
-                          if (dataelement.value == "false") {
-                            return (
-                              <>
-                                {event.dataValues.map((dataelementR) => {
-                                  //Referral filled
-                                  if (
-                                    dataelementR.dataElement == "FyftDLj4iSy"
-                                  ) {
-                                    if (dataelementR.value == "true") {
-                                      return (
-                                        <>
-                                          <ul>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <li> UpdateFirstVisit() </li>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                          </ul>
-                                          <UpdateFirstVisit
-                                            dataElementOrigin="true"
-                                            dataElementReferral="true"
-                                            ev={event}
-                                          />
-                                        </>
-                                      );
-                                    } else {
-                                      return (
-                                        <>
-                                          <ul>
-                                            <ul>
-                                              <ul>
-                                                <ul>
-                                                  <li> UpdateFirstVisit() </li>
-                                                </ul>
-                                              </ul>
-                                            </ul>
-                                          </ul>
-                                          <UpdateFirstVisit
-                                            dataElementOrigin="true"
-                                            dataElementReferral="false"
-                                            ev={event}
-                                          />
-                                        </>
-                                      );
-                                    }
-                                  }
-                                })}
-
-                                {!event.dataValues.some(
-                                  (dataElementC) =>
-                                    dataElementC.dataElement === "FyftDLj4iSy"
-                                ) && ( //Referral not filled
-                                  <>
-                                    <ul>
-                                      <ul>
-                                        <ul>
-                                          <ul>
-                                            <li> UpdateFirstVisit() </li>
-                                          </ul>
-                                        </ul>
-                                      </ul>
-                                    </ul>
-                                    <UpdateFirstVisit
-                                      dataElementOrigin="true"
-                                      dataElementReferral={null}
-                                      ev={event}
-                                    />
-                                  </>
-                                )}
-                              </>
-                            );
-                          }
-                        }
-                      })}
+                      <CheckDataElements event={event} origin="true" />
                     </>
                   );
                 }
@@ -574,7 +177,7 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
           </pre>
         </>
       )}
-    </div>
+    </>
   );
 };
 
