@@ -15,26 +15,26 @@ const CheckDataElements = ({ event, origin }) => {
         event.dataValues.map((referral) => {
           if (referral.dataElement == "FyftDLj4iSy") {
             return (
-              <>
+              <React.Fragment key={event.event}>
                 <UpdateFirstVisit
                   dataElementOrigin={origin}
                   dataElementReferral={referral.value}
                   ev={event}
                 />
-              </>
+              </React.Fragment>
             );
           }
         })}
       {!event.dataValues.some(
         (dataElement) => dataElement.dataElement == "FyftDLj4iSy"
       ) && (
-        <>
+        <React.Fragment key={event.event}>
           <UpdateFirstVisit
             dataElementOrigin={origin}
             dataElementReferral={null}
             ev={event}
           />
-        </>
+        </React.Fragment>
       )}
     </>
   );

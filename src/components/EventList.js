@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDataQuery, useDataMutation } from "@dhis2/app-runtime";
+import React from "react";
+import { useDataQuery } from "@dhis2/app-runtime";
 import CheckOrigin from "./CheckOrigin";
 
 const query = {
@@ -17,25 +17,23 @@ const query = {
 };
 
 export const EventList = () => {
-  const { loading, error, data, refetch } = useDataQuery(query);
+  const { loading, error, data } = useDataQuery(query);
 
   return (
-    <div>
-      <h3>Event List</h3>
+    <>
       {loading && <span>...</span>}
       {error && <span>{`ERROR: ${error.message}`}</span>}
       {data && (
         <>
           <pre>
             {data.events.events.map((ev) => (
-              <>
-                <li> First Visit Event: {ev.event} </li>
-                <CheckOrigin key={ev.event} event={ev} />
-              </>
+              <React.Fragment key={ev.event}>
+                <CheckOrigin event={ev} />
+              </React.Fragment>
             ))}
           </pre>
         </>
       )}
-    </div>
+    </>
   );
 };

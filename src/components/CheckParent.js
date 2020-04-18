@@ -35,69 +35,28 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                   if (eventOrigin.orgUnit != haoOrgunit) {
                     //If origin needs an update
                     return (
-                      <>
-                        <ul>
-                          <ul>
-                            <ul>
-                              <ul>
-                                <li>
-                                  {" "}
-                                  Level 5 and HAO different of parentOrgUnit{" "}
-                                  {orgUnit.id}
-                                </li>
-                              </ul>
-                            </ul>
-                          </ul>
-                        </ul>
-                        <ul>
-                          <ul>
-                            <ul>
-                              <ul>
-                                <li> UpdateOrigin() </li>
-                              </ul>
-                            </ul>
-                          </ul>
-                        </ul>
+                      <React.Fragment key={event.event}>
                         <UpdateOrigin orgUnit={haoOrgunit} ev={eventOrigin} />
                         <CheckDataElements event={event} origin="false" />
-                      </>
+                      </React.Fragment>
                     );
                   } else {
                     //If origin doesn't need an update
                     return (
-                      <>
-                        <CheckDataElements event={event} origin="false" />
-                      </>
+                      <CheckDataElements
+                        key={event.event}
+                        event={event}
+                        origin="false"
+                      />
                     );
                   }
                 } else {
                   //If origin needs to get deleted because HAO and parentOrgunit are equal
                   return (
-                    <>
-                      <ul>
-                        <ul>
-                          <ul>
-                            <ul>
-                              <li>
-                                {" "}
-                                Level 5 and HAO equal parentOrgUnit {orgUnit.id}
-                              </li>
-                            </ul>
-                          </ul>
-                        </ul>
-                      </ul>
-                      <ul>
-                        <ul>
-                          <ul>
-                            <ul>
-                              <li> DeleteOrigin() </li>
-                            </ul>
-                          </ul>
-                        </ul>
-                      </ul>
+                    <React.Fragment key={event.event}>
                       <DeleteOrigin id={eventOrigin.event} />
                       <CheckDataElements event={event} origin="true" />
-                    </>
+                    </React.Fragment>
                   );
                 }
               }
@@ -112,29 +71,7 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
               if (orgUnit.level == 5) {
                 if (haoOrgunit != orgUnit.id) {
                   return (
-                    <>
-                      <ul>
-                        <ul>
-                          <ul>
-                            <ul>
-                              <li>
-                                {" "}
-                                Level 5 and HAO different of parentOrgUnit{" "}
-                                {orgUnit.id}
-                              </li>
-                            </ul>
-                          </ul>
-                        </ul>
-                      </ul>
-                      <ul>
-                        <ul>
-                          <ul>
-                            <ul>
-                              <li> CreateOrigin() </li>
-                            </ul>
-                          </ul>
-                        </ul>
-                      </ul>
+                    <React.Fragment key={event.event}>
                       <CreateOrigin
                         orgUnit={haoOrgunit}
                         trackedEntityInstance={event.trackedEntityInstance}
@@ -142,34 +79,15 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                         eventDate={event.eventDate}
                       />
                       <CheckDataElements event={event} origin="false" />
-                    </>
+                    </React.Fragment>
                   );
                 } else {
                   return (
-                    <>
-                      <ul>
-                        <ul>
-                          <ul>
-                            <ul>
-                              <li>
-                                {" "}
-                                Level 5 and HAO equal parentOrgUnit {orgUnit.id}
-                              </li>
-                            </ul>
-                          </ul>
-                        </ul>
-                      </ul>
-                      <ul>
-                        <ul>
-                          <ul>
-                            <ul>
-                              <li> DO NOTHING </li>
-                            </ul>
-                          </ul>
-                        </ul>
-                      </ul>
-                      <CheckDataElements event={event} origin="true" />
-                    </>
+                    <CheckDataElements
+                      key={event.event}
+                      event={event}
+                      origin="true"
+                    />
                   );
                 }
               }

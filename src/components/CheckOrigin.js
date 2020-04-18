@@ -22,7 +22,7 @@ const CheckOrigin = ({ event }) => {
   const { loading, error, data, refetch } = useDataQuery(query);
 
   return (
-    <div>
+    <>
       {loading && <span>...</span>}
       {error && <span>{`ERROR: ${error.message}`}</span>}
       {data && (
@@ -30,36 +30,26 @@ const CheckOrigin = ({ event }) => {
           <pre>
             {data.origin.events.map((ev) => {
               return (
-                <>
-                  <ul>
-                    <li> Origin Event </li>
-                  </ul>
-                  <CheckHAO
-                    key={event.event}
-                    event={event}
-                    origin={true}
-                    eventOrigin={ev}
-                  />
-                </>
-              );
-            })}
-            {!data.origin.events.length && (
-              <>
-                <ul>
-                  <li> No Origin Event </li>
-                </ul>
                 <CheckHAO
                   key={event.event}
                   event={event}
-                  origin={false}
-                  eventOrigin={null}
+                  origin={true}
+                  eventOrigin={ev}
                 />
-              </>
+              );
+            })}
+            {!data.origin.events.length && (
+              <CheckHAO
+                key={event.event}
+                event={event}
+                origin={false}
+                eventOrigin={null}
+              />
             )}
           </pre>
         </>
       )}
-    </div>
+    </>
   );
 };
 

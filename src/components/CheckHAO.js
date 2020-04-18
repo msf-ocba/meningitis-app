@@ -27,52 +27,34 @@ export const CheckHAO = ({ event, origin, eventOrigin }) => {
   const { loading, error, data, refetch } = useDataQuery(query);
 
   return (
-    <div>
+    <>
       {loading && <span>...</span>}
       {error && <span>{`ERROR: ${error.message}`}</span>}
       {data && origin && (
-        <>
-          <pre>
-            {data.attributes.attributes.map((attribute) => {
-              if (attribute.valueType === "ORGANISATION_UNIT") {
-                return (
-                  <>
-                    <ul>
-                      <ul>
-                        <li> There is origin and HAO is filled </li>
-                      </ul>
-                    </ul>
-                    <ul>
-                      <ul>
-                        <li> CheckParent with {attribute.value} </li>
-                      </ul>
-                    </ul>
-                    <CheckParent
-                      key={event.event}
-                      event={event}
-                      origin={origin}
-                      eventOrigin={eventOrigin}
-                      haoOrgunit={attribute.value}
-                    />
-                  </>
-                );
-              }
-            })}
+        <pre>
+          {data.attributes.attributes.map((attribute) => {
+            if (attribute.valueType === "ORGANISATION_UNIT") {
+              return (
+                <React.Fragment key={event.event}>
+                  <CheckParent
+                    event={event}
+                    origin={origin}
+                    eventOrigin={eventOrigin}
+                    haoOrgunit={attribute.value}
+                  />
+                </React.Fragment>
+              );
+            }
+          })}
 
-            {!data.attributes.attributes.some(
-              (attribute) => attribute.valueType === "ORGANISATION_UNIT"
-            ) && (
-              <>
-                <ul>
-                  <ul>
-                    <li> DeleteOrigin() </li>
-                  </ul>
-                </ul>
-                <DeleteOrigin id={eventOrigin.event} />
-              </>
-            )}
-          </pre>
-        </>
+          {!data.attributes.attributes.some(
+            (attribute) => attribute.valueType === "ORGANISATION_UNIT"
+          ) && (
+            <>
+              <DeleteOrigin id={eventOrigin.event} />
+            </>
+          )}
+        </pre>
       )}
 
       {data && !origin && (
@@ -81,43 +63,20 @@ export const CheckHAO = ({ event, origin, eventOrigin }) => {
             {data.attributes.attributes.map((attribute) => {
               if (attribute.valueType === "ORGANISATION_UNIT") {
                 return (
-                  <>
-                    <ul>
-                      <ul>
-                        <li> There is not origin and HAO is filled </li>
-                      </ul>
-                    </ul>
-                    <CheckParent
-                      key={event.event}
-                      event={event}
-                      origin={origin}
-                      eventOrigin={null}
-                      haoOrgunit={attribute.value}
-                    />
-                  </>
+                  <CheckParent
+                    key={event.event}
+                    event={event}
+                    origin={origin}
+                    eventOrigin={null}
+                    haoOrgunit={attribute.value}
+                  />
                 );
               }
             })}
-            {!data.attributes.attributes.some(
-              (attribute) => attribute.valueType === "ORGANISATION_UNIT"
-            ) && (
-              <>
-                <ul>
-                  <ul>
-                    <li> There is not origin event and HAO is not filled </li>
-                  </ul>
-                </ul>
-                <ul>
-                  <ul>
-                    <li> DO NOTHING </li>
-                  </ul>
-                </ul>
-              </>
-            )}
           </pre>
         </>
       )}
-    </div>
+    </>
   );
 };
 

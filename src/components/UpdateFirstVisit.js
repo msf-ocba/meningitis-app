@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDataMutation } from "@dhis2/app-runtime";
 
 /**
@@ -66,23 +66,7 @@ export const UpdateFirstVisit = ({
     console.log("First Visit Event " + ev.event + " updated!!");
   }, []);
 
-  return (
-    <>
-      <ul>
-        <ul>
-          <ul>
-            <ul>
-              <li>
-                {" "}
-                DataElementOrigin {dataElementOrigin} and DataElementReferral{" "}
-                {dataElementReferral}{" "}
-              </li>
-            </ul>
-          </ul>
-        </ul>
-      </ul>
-    </>
-  );
+  return <></>;
 };
 
 export default UpdateFirstVisit;
