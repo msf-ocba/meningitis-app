@@ -1,6 +1,6 @@
 {
   "name": "MeningitisApp",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Control of the origin's event generation",
   "license": "BSD-3-Clause",
   "private": true,
