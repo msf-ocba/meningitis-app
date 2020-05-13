@@ -1,20 +1,35 @@
 # Meningitis APP
 
-DHIS2 standard WebApp which controls the generation and management of Origin's events for Meningitis Outbreak metadata.
+DHIS2 standard WebApp which controls the generation and management of origin events for Meningitis Linelist metadata.
 
-## Getting Started
+## Overview
 
-EHAS deliver the app already bundled and ready to install it in a DHIS2 instance. But in case any modification has to be made here is a small guide on how setup the enviorement to modify the code and rebuild the app.
+_Meningitis App_ has been developed in _Javascript_ using _React_ framework as it is recommended by [DHIS2 core developer team](https://dhis2designlab.github.io/).
+
+EHAS delivers the app already bundled and ready to install in a DHIS2 instance (v.3x) through _App Management_ app.
+
+## Purpose
+
+_Meningitis App_ was designed for MSF-OCBA DHIS2 servers working together with Meningitis Linelist metadata, already configured by EHAS, as an extension of its functionality. In order to enable the maintenance and/or modification of this app's code this guide will help to MSF-OCBA technicians to:
+
+- Setup the development environment
+- Understand the execution's flow of the app
+- Understand the structure of the app
+- Build and bundle the app from its source code
+
+## Setup a development environment
+
+This section will explain how to setup a development environment to work with DHIS2 React Apps in general and with Meningitis App in particular.
 
 ### Prerequisites
 
-Nodejs has to be installed.
+Nodejs has to be installed: [NodeJS](https://nodejs.org/en/)
 
-### Installing
+### Installing dependencies
 
 The app is getting built and bootstrapped using _d2-app-scripts_ libraries. These libraries are installed as dependencies by default when it is run the command:
 
-## Algorithm used in the app
+## Execution flow chart
 
 !["Event's flowchart during the execution of the app"](./images/flowchart.png)
 

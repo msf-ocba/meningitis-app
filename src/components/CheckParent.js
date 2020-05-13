@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useDataQuery } from "@dhis2/app-runtime";
 import CreateOrigin from "./CreateOrigin";
 import UpdateOrigin from "./UpdateOrigin";
@@ -6,7 +6,18 @@ import DeleteOrigin from "./DeleteOrigin";
 import CheckDataElements from "./CheckDataElements";
 
 /**
+Component that checks if the parent org unit (level 6) of the event from EvenList
+matches with the Health Area selected in the HAO attribute.
+It decides if there is need to:
+                              -DeleteOrigin event
+                              -UpdateOrigin event
+                              -CreateOrigin event
+                              -None of the previous actions
 
+It always end at CheckDataElements component to make sure the correct
+values are selected for each situation.
+Parent component: CheckHAO
+Child component: CheckDataElements
 **/
 
 export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {

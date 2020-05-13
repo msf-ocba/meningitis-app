@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useDataQuery, useDataMutation } from "@dhis2/app-runtime";
+import React from "react";
+import { useDataQuery } from "@dhis2/app-runtime";
 import CheckHAO from "./CheckHAO";
 
 /**
-Function that receives a First Visit type of event (object) from EventList and 
-check if it has an origin event associated through the trackedEntityInstance. 
-It redirects the app flow to the CheckHAO function.
+Component that receives a First Visit type of event (object) from EventList and 
+check if there is an origin event associated to the trackedEntityInstance. 
+Parent component: EventList
+Child component: CheckHAO
 **/
 
 const CheckOrigin = ({ event }) => {

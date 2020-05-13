@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { useDataMutation } from "@dhis2/app-runtime";
 
 /**
-
+Component that handles the value of First Visit type of event's dataelements
+It updates the value of the origin dataelement following the execution flow's 
+logic and it keeps the referral value as it was filled by the dataclerk originally.
 **/
 
 export const UpdateFirstVisit = ({

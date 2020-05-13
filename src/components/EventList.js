@@ -2,6 +2,13 @@ import React from "react";
 import { useDataQuery } from "@dhis2/app-runtime";
 import CheckOrigin from "./CheckOrigin";
 
+/**
+Parent component of the app. It requests the list of First Event type
+events which are descendants from the orgUnit param in the query.
+Parent component: -
+Child component: CheckOrigin
+ */
+
 const query = {
   events: {
     resource: "events.json",

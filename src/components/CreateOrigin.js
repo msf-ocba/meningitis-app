@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDataMutation } from "@dhis2/app-runtime";
 
 /**
-
+Component that handles the creation of new origin events.
+Every time a new origin event is created a log appears at the console.
 **/
 
 export const CreateOrigin = ({
@@ -30,7 +31,7 @@ export const CreateOrigin = ({
       ],
     }),
   };
-  const [mutate, { data }] = useDataMutation(mutation, {
+  const [mutate] = useDataMutation(mutation, {
     variables: {
       orgUnit: orgUnit,
       trackedEntityInstance: trackedEntityInstance,

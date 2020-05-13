@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDataMutation } from "@dhis2/app-runtime";
 
 /**
-
+Component that handles the update of origin events org unit when 
+the HAO attribute changes (or get corrected) to a different 
+Health Area value.
 **/
 
 export const UpdateOrigin = ({ orgUnit, ev }) => {
