@@ -1,6 +1,6 @@
 # Meningitis APP
 
-DHIS2 standard WebApp which controls the generation and management of origin events for Meningitis Linelist metadata.
+DHIS2 standard webapp which controls the generation and management of origin events for _Meningitis Linelist_ metadata.
 
 ## Overview
 
@@ -23,23 +23,118 @@ This section will explain how to setup a development environment to work with DH
 
 ### Prerequisites
 
-Nodejs has to be installed: [NodeJS](https://nodejs.org/en/)
+- Nodejs: [NodeJS](https://nodejs.org/en/)
+- Yarn: [Yarn](https://yarnpkg.com/getting-started/install)
 
-### Installing dependencies
+### Installing
 
-The app is getting built and bootstrapped using _d2-app-scripts_ libraries. These libraries are installed as dependencies by default when it is run the command:
+1.  Create a new folder:
+
+        sudo mkdir newfolder && cd newfolder
+
+2.  Install the dependencies
+
+        sudo yarn global add @dhis2/cli
+
+3.  Initialize
+
+        sudo d2 app scripts init my-app-name
+
+4.  Clone the repository
+
+        sudo git init
+        sudo git clone https://github.com/velasvalen17/meningitis-app.git
+
+5.  Delete ./my-app-name/src folder and replace it by ./meningitis-app/src folder
+
+        sudo rm -r ./my-app-name/src
+        sudo mv ./meningitis-app/src ./my-app-name/
+
+### Executing
+
+Executing the app from the developer environment we have just setup requires two steps:
+
+- User needs to be logged into the DHIS2 instance in a web browser before we execute the app from our development setup.
+
+- We need to modify the default's apiVersion variable the app uses the first time the app is executed.
+
+Taking this in consideration:
+
+1.  Login into the DHIS2 instance in a web browser
+2.  Start the app from ~/my-app-name
+
+        sudo yarn start
+
+3.  Edit the file ~/newfolder/my-app-name/.d2/shell/src/App.js and replace the apiVersion for the version of the DHIS2 instance where the app is gonna work
+
+```javascript
+const appConfig = {
+  url:
+    process.env.REACT_APP_DHIS2_BASE_URL || window.localStorage.DHIS2_BASE_URL,
+  appName: process.env.REACT_APP_DHIS2_APP_NAME || "",
+  apiVersion: parseInt(process.env.REACT_APP_DHIS2_API_VERSION) || 30,
+  /*This is the default value and for our
+    example needs to be changed from 32 to 30
+    */
+};
+```
 
 ## Execution flow chart
 
 !["Event's flowchart during the execution of the app"](./images/flowchart.png)
 
-### Origin event control and HAO DE integrated control
+> Note: In case the project org unit id changes, the first request to the API (EventList) should be changed in order to apply the logic of the app to the events which are descendants of the new project's org unit. This will be changed in EventList.js
 
-The logic for this is...
+```javascript
+//EventList.js
+const query = {
+  events: {
+    resource: "events.json",
+    params: {
+      orgUnit: "wg60MeX0Txd",
+      ouMode: "DESCENDANTS",
+      program: "VOEVJzwp4F7",
+      lastUpdatedDuration: "300d",
+      filter: "MZ5Ww7OZTgM:eq:First visit",
+      skipPaging: "true",
+    },
+  },
+};
+```
 
-### Data element HAO control general
+## Structure of the app
 
-We thought that it would be easier if we update every first event in order to make sure that the dataelements had the data we wanted.
+The app request to the API a list of events which are:
+
+- First visit type
+- Belongs to the program selected
+- Belong to the descendants orgUnits from the orgUnit selected
+- Have been updated during the previous 300 days to the execution of the app
+
+> Note: All these parameters can be changed adapting them to new scenarios
+
+Then, the app iterates through this event list checking each event and deciding between:
+
+- Do nothing
+- CreateOrigin event
+- DeleteOrigin event
+- UpdateOrigin event
+
+In every case, the First Visit event related with each TEI will be updated by the UpdateFirstVisit component. It is designed this way to be sure the data elements related with every First Visit event have the correct values according with the HAO attribute of each TEI. So, no matter how many times the HAO attribute is edited and changed, that the origin control data element will be always up to date once Meningitis App is executed.
+
+Further description of every app's components are added as inline comments at the beginning of each file \*.js in ./components folder.
+
+## Build and bundle
+
+From the app folder (~/my-app-name):
+
+        sudo yarn build
+
+A new folder named _build_ will be created in your folder structure. In ~/build/bundle folder will be MeningitisApp's pack ready to get installed in the DHIS2 server.
+
+This is how the example's folder structure of MeningitisApp should look like:
+
+!["Event's flowchart during the execution of the app"](./images/meningitisAppStructure.png)
 
 ## Author
 
