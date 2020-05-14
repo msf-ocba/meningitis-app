@@ -6,13 +6,17 @@ DHIS2 standard webapp which controls the generation and management of origin eve
 
 _Meningitis App_ has been developed in _Javascript_ using _React_ framework as it is recommended by [DHIS2 core developer team](https://dhis2designlab.github.io/).
 
+In order to keep coherence with DHIS2 css style and DHIS2 webapp development paradigm, [DHIS2 Application Plattform](https://platform.dhis2.nu/) has been used for bootstrapping Meningitis App. Along with styling, DHIS2 Application Plattform provides a series of custom React hooks, that have been used to make API requests and mutations.
+
 EHAS delivers the app already bundled and ready to install in a DHIS2 instance (v.3x) through _App Management_ app.
 
 ## Purpose
 
-_Meningitis App_ was designed for MSF-OCBA DHIS2 servers working together with Meningitis Linelist metadata, already configured by EHAS, as an extension of its functionality. In order to enable the maintenance and/or modification of this app's code this guide will help to MSF-OCBA technicians to:
+_Meningitis App_ was designed for MSF-OCBA DHIS2 servers working together with Meningitis Linelist metadata, already configured by [EHAS Foundation](http://www.ehas.org/), as an extension of its functionality. This app interact with DHIS2 API in order to automatize the control and management of Meningitis patients that don't belong to the Health Area of Origin (HAO) of their reporting Health Structure. With this app, data entry process gets simplified for MSF-OCBA data clerks in this particular matter.
 
-- Setup the development environment
+In order to facilitate the maintenance and/or modification of this app's code, this guide will help to MSF-OCBA technicians to:
+
+- Setup a development environment
 - Understand the execution's flow of the app
 - Understand the structure of the app
 - Build and bundle the app from its source code
@@ -81,6 +85,8 @@ const appConfig = {
 
 ## Execution flow chart
 
+This section details the execution's flow of the app with a self-explanatory diagram:
+
 !["Event's flowchart during the execution of the app"](./images/flowchart.png)
 
 > Note: In case the project org unit id changes, the first request to the API (EventList) should be changed in order to apply the logic of the app to the events which are descendants of the new project's org unit. This will be changed in EventList.js
@@ -115,14 +121,14 @@ The app request to the API a list of events which are:
 
 Then, the app iterates through this event list checking each event and deciding between:
 
-- Do nothing
+- Doing nothing
 - CreateOrigin event
 - DeleteOrigin event
 - UpdateOrigin event
 
-In every case, the First Visit event related with each TEI will be updated by the UpdateFirstVisit component. It is designed this way to be sure the data elements related with every First Visit event have the correct values according with the HAO attribute of each TEI. So, no matter how many times the HAO attribute is edited and changed, that the origin control data element will be always up to date once Meningitis App is executed.
+In every case, the First Visit event related with each TEI will be updated by the UpdateFirstVisit component. It is designed this way to be sure the data elements related with every First Visit event have the correct values according with the HAO attribute of each TEI. So, no matter how many times the HAO attribute is edited and changed that the origin control data element will be always up to date once Meningitis App is executed.
 
-Further description of every app's components are added as inline comments at the beginning of each file \*.js in ./components folder.
+Further description of every app's components are included as inline comments at the beginning of each file \*.js in components folder.
 
 ## Build and bundle
 
@@ -138,4 +144,4 @@ This is how the example's folder structure of MeningitisApp should look like:
 
 ## Author
 
-- **Sergio Valenzuela** - _Design and development_ - [velasvalen17](https://github.com/velasvalen17)
+- **Sergio Valenzuela** - [EHAS Foundation](https://github.com/ehasalud) - _Design and development_ - [velasvalen17](https://github.com/velasvalen17)
