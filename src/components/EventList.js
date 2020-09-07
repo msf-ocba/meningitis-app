@@ -12,14 +12,14 @@ Child component: CheckOrigin
 const query = {
   events: {
     resource: "events.json",
-    params: {
+    params: ({ orgUnit, program }) => ({
       orgUnit: "wg60MeX0Txd",
       ouMode: "DESCENDANTS",
       program: "VOEVJzwp4F7",
       lastUpdatedDuration: "300d",
       filter: "MZ5Ww7OZTgM:eq:First visit",
       skipPaging: "true",
-    },
+    }),
   },
 };
 
