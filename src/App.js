@@ -1,8 +1,8 @@
 import React from "react";
-import { EventList } from "./components/EventList";
+import { ProgramList } from "./components/ProgramList";
 
 const MeningitisApp = () => {
-  return <EventList />;
+  return <ProgramList />;
 };
 
 export default MeningitisApp;
