@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDataQuery, useDataEngine } from "@dhis2/app-runtime";
+import { useDataEngine } from "@dhis2/app-runtime";
+import EventList from "./EventList";
 
 /**
  * This component make the call to the API requesting
@@ -29,8 +30,9 @@ const ORG_UNIT_QUERY = {
     resource: "organisationUnits",
     id: ({ id }) => id,
     params: {
-      fields: "id, displayName",
+      fields: "id, displayName, level",
       includeAncestors: "true",
+      filter: ["level:eq:4"],
     },
   },
 };
@@ -38,18 +40,42 @@ const ORG_UNIT_QUERY = {
 export const ProgramList = () => {
   const engine = useDataEngine();
 
+  const [programsFiltered, setProgramsFiltered] = useState("");
+  const [ou, setOu] = useState("");
+
   const requestPrograms = async () => {
-    const response = await engine.query(PROGRAMS_QUERY);
-    console.log(response.programs.programs);
+    const programs = await engine.query(PROGRAMS_QUERY);
+    const programsRequested = programs.programs.programs;
+    setProgramsFiltered(programsRequested[0].id);
+
+    programsRequested.map(async (program) => {
+      const parent = await engine.query(ORG_UNIT_QUERY, {
+        variables: {
+          id: program.organisationUnits[0].id,
+        },
+      });
+      setOu(parent.orgunits.organisationUnits[0].id);
+    });
   };
 
   useEffect(() => {
     requestPrograms();
   }, []);
 
+  useEffect(() => {
+    if (ou) {
+      console.log(programsFiltered);
+      console.log(ou);
+    }
+  }, [ou]);
+
   return (
     <React.Fragment>
-      <p>Test</p>
+      {programsFiltered && ou && (
+        <>
+          <EventList orgUnit={ou} program={programsFiltered} />
+        </>
+      )}
     </React.Fragment>
   );
 };

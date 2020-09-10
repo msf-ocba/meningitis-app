@@ -13,9 +13,9 @@ const query = {
   events: {
     resource: "events.json",
     params: ({ orgUnit, program }) => ({
-      orgUnit: "wg60MeX0Txd",
+      orgUnit,
       ouMode: "DESCENDANTS",
-      program: "VOEVJzwp4F7",
+      program,
       lastUpdatedDuration: "300d",
       filter: "MZ5Ww7OZTgM:eq:First visit",
       skipPaging: "true",
@@ -23,8 +23,13 @@ const query = {
   },
 };
 
-export const EventList = () => {
-  const { loading, error, data } = useDataQuery(query);
+const EventList = ({ orgUnit, program }) => {
+  const { loading, error, data } = useDataQuery(query, {
+    variables: {
+      orgUnit,
+      program,
+    },
+  });
 
   return (
     <>
@@ -44,3 +49,5 @@ export const EventList = () => {
     </>
   );
 };
+
+export default EventList;
