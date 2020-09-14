@@ -41,7 +41,7 @@ export const ProgramList = () => {
   const engine = useDataEngine();
 
   const [programsFiltered, setProgramsFiltered] = useState("");
-  const [ou, setOu] = useState("");
+  const [ous, setOus] = useState([]);
 
   const requestPrograms = async () => {
     const programs = await engine.query(PROGRAMS_QUERY);
@@ -54,7 +54,9 @@ export const ProgramList = () => {
           id: program.organisationUnits[0].id,
         },
       });
-      setOu(parent.orgunits.organisationUnits[0].id);
+      //I append each ou from each request to the API to the ous' array stored
+      // in the state
+      setOus((ous) => [...ous, parent.orgunits.organisationUnits[0].id]);
     });
   };
 
@@ -63,17 +65,17 @@ export const ProgramList = () => {
   }, []);
 
   useEffect(() => {
-    if (ou) {
+    if (ous) {
       console.log(programsFiltered);
-      console.log(ou);
+      console.log(ous);
     }
-  }, [ou]);
+  }, [ous]);
 
   return (
     <React.Fragment>
-      {programsFiltered && ou && (
+      {programsFiltered && ous && (
         <>
-          <EventList orgUnit={ou} program={programsFiltered} />
+          <EventList orgUnit={ous} program={programsFiltered} />
         </>
       )}
     </React.Fragment>
