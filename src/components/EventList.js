@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDataQuery } from "@dhis2/app-runtime";
 import CheckOrigin from "./CheckOrigin";
 
@@ -31,6 +31,12 @@ const EventList = ({ orgUnit, program }) => {
     },
   });
 
+  useEffect(() => {
+    console.log(
+      `Executing OutBreak App on the program: ${program} with the parent_orgUnit ${orgUnit} `
+    );
+  }, []);
+
   return (
     <>
       {loading && <span>...</span>}
@@ -38,9 +44,13 @@ const EventList = ({ orgUnit, program }) => {
       {data && (
         <>
           <pre>
-            {data.events.events.map((ev) => (
+            {data.events.events.map((ev, index) => (
               <React.Fragment key={ev.event}>
                 <CheckOrigin event={ev} />
+                {index == data.events.events.length - 1 &&
+                  console.log(
+                    `Program ${program} with ${index} events updated!`
+                  )}
               </React.Fragment>
             ))}
           </pre>

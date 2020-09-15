@@ -20,6 +20,7 @@ const PROGRAMS_QUERY = {
       filter: [
         "programType:eq:WITH_REGISTRATION",
         "attributeValues.attribute.id:eq:WVmkKHRZi52",
+        "attributeValues.value:eq:true",
       ],
     },
   },
@@ -40,23 +41,34 @@ const ORG_UNIT_QUERY = {
 export const ProgramList = () => {
   const engine = useDataEngine();
 
-  const [programsFiltered, setProgramsFiltered] = useState("");
-  const [ous, setOus] = useState([]);
+  const [executionObjs, setExecutionObjs] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const requestPrograms = async () => {
     const programs = await engine.query(PROGRAMS_QUERY);
     const programsRequested = programs.programs.programs;
-    setProgramsFiltered(programsRequested[0].id);
 
-    programsRequested.map(async (program) => {
+    programsRequested.map(async (program, index) => {
       const parent = await engine.query(ORG_UNIT_QUERY, {
         variables: {
           id: program.organisationUnits[0].id,
         },
       });
-      //I append each ou from each request to the API to the ous' array stored
-      // in the state
-      setOus((ous) => [...ous, parent.orgunits.organisationUnits[0].id]);
+      //Each program_id and parent_id from each request to the API is
+      //appended to the executionObjs array and it is stored in the state
+      setExecutionObjs((executionObjs) => [
+        ...executionObjs,
+        {
+          program_id: program.id,
+          parent_id: parent.orgunits.organisationUnits[0].id,
+        },
+      ]);
+
+      //When the map index is equal to the lenght of the programs array
+      //the render is toggled in
+      if (index == programsRequested.length - 1) {
+        setIsLoaded(true);
+      }
     });
   };
 
@@ -64,18 +76,26 @@ export const ProgramList = () => {
     requestPrograms();
   }, []);
 
-  useEffect(() => {
-    if (ous) {
-      console.log(programsFiltered);
-      console.log(ous);
-    }
-  }, [ous]);
+  // useEffect(() => {
+  //   if (isLoaded) {
+  //     console.log(`ExecutionObject: ${JSON.stringify(executionObjs)}`);
+  //   }
+  // }, [isLoaded]);
 
   return (
     <React.Fragment>
-      {programsFiltered && ous && (
+      {/* {programsFiltered && ous && (
         <>
           <EventList orgUnit={ous} program={programsFiltered} />
+        </>
+      )} */}
+      {isLoaded && (
+        <>
+          <pre>
+            {executionObjs.map((obj) => (
+              <EventList orgUnit={obj.parent_id} program={obj.program_id} />
+            ))}
+          </pre>
         </>
       )}
     </React.Fragment>
