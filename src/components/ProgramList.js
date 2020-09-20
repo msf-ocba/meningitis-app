@@ -26,19 +26,49 @@ const PROGRAMS_QUERY = {
   },
 };
 
-const ORG_UNIT_QUERY = {
-  orgunits: {
-    resource: "organisationUnits",
+// const ORG_UNIT_QUERY = {
+//   orgunits: {
+//     resource: "organisationUnits",
+//     id: ({ id }) => id,
+//     params: {
+//       fields: "id, displayName, level",
+//       includeAncestors: "true",
+//       //Level 1 (Root) to be sure all the events from the selected programs
+//       //in all the countries are checked by the app
+//       filter: ["level:eq:1"],
+//     },
+//   },
+// };
+
+const PROGRAM_QUERY = {
+  program: {
+    resource: "programs",
     id: ({ id }) => id,
     params: {
-      fields: "id, displayName, level",
-      includeAncestors: "true",
-      filter: ["level:eq:4"],
+      paging: false,
+      fields:
+        "organisationUnits[id, level, parent[id, level, parent[id, level]]",
     },
   },
 };
 
 export const ProgramList = () => {
+  const searchForOrgUnits = (objects) => {
+    const programs = objects.map((object) =>
+      object.org_units.program.organisationUnits
+        .map((obj) => obj.parent)
+        .filter((obj) => obj.level === 4)
+    );
+    const programs2 = objects.map((object) =>
+      object.org_units.program.organisationUnits
+        .map((obj) => obj.parent.parent)
+        .filter((obj) => obj.level === 4)
+        .map((obj) => obj.id)
+    );
+
+    return new Set(programs2[1]);
+  };
+
   const engine = useDataEngine();
 
   const [executionObjs, setExecutionObjs] = useState([]);
@@ -49,9 +79,10 @@ export const ProgramList = () => {
     const programsRequested = programs.programs.programs;
 
     programsRequested.map(async (program, index) => {
-      const parent = await engine.query(ORG_UNIT_QUERY, {
+      const parent = await engine.query(PROGRAM_QUERY, {
         variables: {
-          id: program.organisationUnits[0].id,
+          // id: program.organisationUnits[0].id,
+          id: program.id,
         },
       });
       //Each program_id and parent_id from each request to the API is
@@ -60,7 +91,7 @@ export const ProgramList = () => {
         ...executionObjs,
         {
           program_id: program.id,
-          parent_id: parent.orgunits.organisationUnits[0].id,
+          org_units: parent,
         },
       ]);
 
@@ -76,11 +107,13 @@ export const ProgramList = () => {
     requestPrograms();
   }, []);
 
-  // useEffect(() => {
-  //   if (isLoaded) {
-  //     console.log(`ExecutionObject: ${JSON.stringify(executionObjs)}`);
-  //   }
-  // }, [isLoaded]);
+  useEffect(() => {
+    if (isLoaded) {
+      // console.log(`ExecutionObject: ${JSON.stringify(executionObjs)}`);
+      console.log(executionObjs);
+      console.log(searchForOrgUnits(executionObjs));
+    }
+  }, [isLoaded]);
 
   return (
     <React.Fragment>
@@ -90,13 +123,15 @@ export const ProgramList = () => {
         </>
       )} */}
       {isLoaded && (
-        <>
-          <pre>
-            {executionObjs.map((obj) => (
-              <EventList orgUnit={obj.parent_id} program={obj.program_id} />
-            ))}
-          </pre>
-        </>
+        <p>Test!</p>
+
+        // <>
+        //   <pre>
+        //     {executionObjs.map((obj) => (
+        //       <EventList orgUnit={obj.parent_id} program={obj.program_id} />
+        //     ))}
+        //   </pre>
+        // </>
       )}
     </React.Fragment>
   );

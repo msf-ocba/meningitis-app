@@ -16,9 +16,10 @@ const query = {
       orgUnit,
       ouMode: "DESCENDANTS",
       program,
-      lastUpdatedDuration: "300d",
+      lastUpdatedStartDate: "2020-08-01T09:00:24.878",
       filter: "MZ5Ww7OZTgM:eq:First visit",
       skipPaging: "true",
+      //lastUpdatedDuration: "10d",
     }),
   },
 };
@@ -49,7 +50,7 @@ const EventList = ({ orgUnit, program }) => {
                 <CheckOrigin event={ev} />
                 {index == data.events.events.length - 1 &&
                   console.log(
-                    `Program ${program} with ${index} events updated!`
+                    `Program ${program} with ${data.events.events.length} events, updated!`
                   )}
               </React.Fragment>
             ))}
