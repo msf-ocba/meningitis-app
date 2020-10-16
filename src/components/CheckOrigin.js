@@ -40,12 +40,14 @@ const CheckOrigin = ({ event }) => {
               );
             })}
             {!data.origin.events.length && (
-              <CheckHAO
-                key={event.event}
-                event={event}
-                origin={false}
-                eventOrigin={null}
-              />
+              <>
+                <CheckHAO
+                  key={event.event}
+                  event={event}
+                  origin={false}
+                  eventOrigin={null}
+                />
+              </>
             )}
           </pre>
         </>

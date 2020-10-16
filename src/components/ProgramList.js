@@ -38,7 +38,7 @@ const PROGRAM_QUERY = {
   },
 };
 
-export const ProgramList = () => {
+export const ProgramList = ({ initialExecutionDate, dataElement }) => {
   const [executionObjs, setExecutionObjs] = useState([]);
   const [programsList, setProgramsList] = useState([]);
   const [executionIsLoaded, setExecutionIsLoaded] = useState(false);
@@ -141,7 +141,15 @@ export const ProgramList = () => {
           <pre>
             {programsList.map((program) =>
               program[1].map((org) => {
-                return <EventList orgUnit={org} program={program[0]} />;
+                return (
+                  <EventList
+                    orgUnit={org}
+                    program={program[0]}
+                    initialExecutionDate={initialExecutionDate}
+                    dataElement={dataElement}
+                    key={org}
+                  />
+                );
               })
             )}
           </pre>

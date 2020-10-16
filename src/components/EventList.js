@@ -12,23 +12,25 @@ Child component: CheckOrigin
 const query = {
   events: {
     resource: "events.json",
-    params: ({ program, orgUnit }) => ({
+    params: ({ program, orgUnit, initialExecutionDate, dataElement }) => ({
       orgUnit,
       ouMode: "DESCENDANTS",
       program,
-      lastUpdatedStartDate: "2020-01-01T09:00:24.878",
-      filter: "MZ5Ww7OZTgM:eq:First visit",
+      lastUpdatedStartDate: "2020-10-16",
+      filter: `${dataElement}:eq:First visit`,
       skipPaging: "true",
       //lastUpdatedDuration: "10d",
     }),
   },
 };
 
-const EventList = ({ orgUnit, program }) => {
+const EventList = ({ orgUnit, program, initialExecutionDate, dataElement }) => {
   const { loading, error, data } = useDataQuery(query, {
     variables: {
       orgUnit,
       program,
+      initialExecutionDate,
+      dataElement,
     },
   });
 
@@ -50,7 +52,7 @@ const EventList = ({ orgUnit, program }) => {
                 <CheckOrigin event={ev} />
                 {index == data.events.events.length - 1 &&
                   console.log(
-                    `Program ${program} with ${data.events.events.length} events in orgUnit ${orgUnit}, updated!`
+                    `Program ${program} with ${data.events.events.length} events in orgUnit ${orgUnit}, updated! Event ${ev.event}`
                   )}
               </React.Fragment>
             ))}
