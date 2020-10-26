@@ -19,7 +19,13 @@ Parent component: CheckOrigin
 Child component: CheckParent
 **/
 
-export const CheckHAO = ({ event, origin, eventOrigin }) => {
+export const CheckHAO = ({
+  event,
+  origin,
+  eventOrigin,
+  program,
+  programStage,
+}) => {
   const query = {
     attributes: {
       resource: "trackedEntityInstances",
@@ -44,6 +50,8 @@ export const CheckHAO = ({ event, origin, eventOrigin }) => {
                     origin={origin}
                     eventOrigin={eventOrigin}
                     haoOrgunit={attribute.value}
+                    program={program}
+                    programStage={programStage}
                   />
                 </React.Fragment>
               );
@@ -72,6 +80,8 @@ export const CheckHAO = ({ event, origin, eventOrigin }) => {
                     origin={origin}
                     eventOrigin={null}
                     haoOrgunit={attribute.value}
+                    program={program}
+                    programStage={programStage}
                   />
                 );
               }

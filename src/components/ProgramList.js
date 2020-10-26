@@ -3,28 +3,10 @@ import { useDataEngine } from "@dhis2/app-runtime";
 import EventList from "./EventList";
 
 /**
- * This component make the call to the API requesting
- * the tracker program list implemented in the instance with the flag enabled
- * (using filters).
  * For each program it retrieves an org unit associated to it and makes a
  * call to the API requesting the level of the parent org unit (level 4).
  * For each program and each parent org unit, eventList is executed.
  */
-
-const PROGRAMS_QUERY = {
-  programs: {
-    resource: "programs",
-    params: {
-      paging: false,
-      fields: "id, displayName, organisationUnits",
-      filter: [
-        "programType:eq:WITH_REGISTRATION",
-        "attributeValues.attribute.id:eq:WVmkKHRZi52",
-        "attributeValues.value:eq:true",
-      ],
-    },
-  },
-};
 
 const PROGRAM_QUERY = {
   program: {
@@ -38,7 +20,11 @@ const PROGRAM_QUERY = {
   },
 };
 
-export const ProgramList = ({ initialExecutionDate, dataElement }) => {
+export const ProgramList = ({
+  initialExecutionDate,
+  dataElement,
+  programs,
+}) => {
   const [executionObjs, setExecutionObjs] = useState([]);
   const [programsList, setProgramsList] = useState([]);
   const [executionIsLoaded, setExecutionIsLoaded] = useState(false);
@@ -75,7 +61,6 @@ export const ProgramList = ({ initialExecutionDate, dataElement }) => {
       }
     });
 
-    console.log(programs);
     //This state update should happen conditionally in order to not enter into race conditions
     setProgramListIsLoaded(true);
 
@@ -83,18 +68,15 @@ export const ProgramList = ({ initialExecutionDate, dataElement }) => {
   };
 
   const requestPrograms = async () => {
-    const programs = await engine.query(PROGRAMS_QUERY);
     const programsRequested = programs.programs.programs;
 
-    console.log(programsRequested);
-
-    programsRequested.map(async (program, index) => {
+    programsRequested.map(async (program) => {
       const parent = await engine.query(PROGRAM_QUERY, {
         variables: {
           // id: program.organisationUnits[0].id,
           id: program.id,
         },
-        onComplete: (data) => console.log(data),
+        // onComplete: (data) => console.log(data),
       });
       //Each program_id and parent_id from each request to the API is
       //appended to the executionObjs array and it is stored in the state
@@ -106,13 +88,7 @@ export const ProgramList = ({ initialExecutionDate, dataElement }) => {
         },
       ]);
 
-      //When the map index is equal to the lenght of the programs array
-      //the render is toggled in
-      console.log(index);
-      console.log(executionIsLoaded);
-      if (index == programsRequested.length - 1) {
-        setExecutionIsLoaded(true);
-      }
+      setExecutionIsLoaded(true);
     });
   };
 
@@ -121,18 +97,11 @@ export const ProgramList = ({ initialExecutionDate, dataElement }) => {
   }, []);
 
   useEffect(() => {
-    if (executionIsLoaded) {
+    if (executionObjs.length == programs.programs.programs.length) {
       // console.log(`ExecutionObject: ${JSON.stringify(executionObjs)}`);
       setProgramsList(searchForOrgUnits(executionObjs));
     }
-  }, [executionIsLoaded]);
-
-  // useEffect(() => {
-  //   if (programListIsLoaded) {
-  //     console.log(programsList);
-  //     console.log(programsList[0]);
-  //   }
-  // }, [programListIsLoaded]);
+  }, [executionObjs]);
 
   return (
     <React.Fragment>

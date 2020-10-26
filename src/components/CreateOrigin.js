@@ -11,13 +11,22 @@ export const CreateOrigin = ({
   trackedEntityInstance,
   enrollment,
   eventDate,
+  program,
+  programStage,
 }) => {
   const mutation = {
     resource: "events",
     type: "create",
-    data: ({ orgUnit, trackedEntityInstance, enrollment, eventDate }) => ({
-      program: "VOEVJzwp4F7",
-      programStage: "UFGwxeTgzZD",
+    data: ({
+      orgUnit,
+      trackedEntityInstance,
+      enrollment,
+      eventDate,
+      program,
+      programStage,
+    }) => ({
+      program,
+      programStage,
       orgUnit,
       trackedEntityInstance,
       enrollment,
@@ -37,13 +46,18 @@ export const CreateOrigin = ({
       trackedEntityInstance: trackedEntityInstance,
       enrollment: enrollment,
       eventDate: eventDate,
+      program: program,
+      programStage: programStage,
     },
   });
 
   useEffect(() => {
     mutate();
     console.log(
-      "Event with TEI_ID: " + trackedEntityInstance + " has been created!!"
+      "Origin event with TEI_ID: " +
+        trackedEntityInstance +
+        " has been created!! And ProgramStage " +
+        programStage
     );
   }, []);
 

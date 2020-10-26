@@ -9,7 +9,7 @@ Parent component: CheckParent
 Child component: UpdateFirstVisit
  */
 
-const CheckDataElements = ({ event, origin }) => {
+const CheckDataElements = ({ event, origin, program, programStage }) => {
   return (
     <>
       {event.dataValues.some(
@@ -23,6 +23,8 @@ const CheckDataElements = ({ event, origin }) => {
                   dataElementOrigin={origin}
                   dataElementReferral={referral.value}
                   ev={event}
+                  program={program}
+                  programStage={programStage}
                 />
               </React.Fragment>
             );
@@ -36,6 +38,8 @@ const CheckDataElements = ({ event, origin }) => {
             dataElementOrigin={origin}
             dataElementReferral={null}
             ev={event}
+            program={program}
+            programStage={programStage}
           />
         </React.Fragment>
       )}

@@ -11,6 +11,8 @@ export const UpdateFirstVisit = ({
   dataElementOrigin,
   dataElementReferral,
   ev,
+  program,
+  programStage,
 }) => {
   const mutation = {
     resource: "events",
@@ -25,10 +27,12 @@ export const UpdateFirstVisit = ({
       eventDate,
       dataElementOrigin,
       dataElementReferral,
+      program,
+      programStage,
     }) => ({
-      program: "VOEVJzwp4F7",
+      program,
       event,
-      programStage: "UFGwxeTgzZD",
+      programStage,
       orgUnit,
       trackedEntityInstance,
       enrollment,
@@ -60,6 +64,8 @@ export const UpdateFirstVisit = ({
       eventDate: ev.eventDate,
       dataElementOrigin: dataElementOrigin,
       dataElementReferral: dataElementReferral,
+      program: program,
+      programStage: programStage,
     },
   });
 

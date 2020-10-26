@@ -20,7 +20,14 @@ Parent component: CheckHAO
 Child component: CheckDataElements
 **/
 
-export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
+export const CheckParent = ({
+  event,
+  origin,
+  eventOrigin,
+  haoOrgunit,
+  program,
+  programStage,
+}) => {
   const query = {
     parent: {
       resource: "organisationUnits",
@@ -47,8 +54,18 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                     //If origin needs an update
                     return (
                       <React.Fragment key={event.event}>
-                        <UpdateOrigin orgUnit={haoOrgunit} ev={eventOrigin} />
-                        <CheckDataElements event={event} origin="false" />
+                        <UpdateOrigin
+                          orgUnit={haoOrgunit}
+                          ev={eventOrigin}
+                          program={program}
+                          programStage={programStage}
+                        />
+                        <CheckDataElements
+                          event={event}
+                          origin="false"
+                          program={program}
+                          programStage={programStage}
+                        />
                       </React.Fragment>
                     );
                   } else {
@@ -58,6 +75,8 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                         key={event.event}
                         event={event}
                         origin="false"
+                        program={program}
+                        programStage={programStage}
                       />
                     );
                   }
@@ -66,7 +85,12 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                   return (
                     <React.Fragment key={event.event}>
                       <DeleteOrigin id={eventOrigin.event} />
-                      <CheckDataElements event={event} origin="true" />
+                      <CheckDataElements
+                        event={event}
+                        origin="true"
+                        program={program}
+                        programStage={programStage}
+                      />
                     </React.Fragment>
                   );
                 }
@@ -88,8 +112,15 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                         trackedEntityInstance={event.trackedEntityInstance}
                         enrollment={event.enrollment}
                         eventDate={event.eventDate}
+                        program={program}
+                        programStage={programStage}
                       />
-                      <CheckDataElements event={event} origin="false" />
+                      <CheckDataElements
+                        event={event}
+                        origin="false"
+                        program={program}
+                        programStage={programStage}
+                      />
                     </React.Fragment>
                   );
                 } else {
@@ -98,6 +129,8 @@ export const CheckParent = ({ event, origin, eventOrigin, haoOrgunit }) => {
                       key={event.event}
                       event={event}
                       origin="true"
+                      program={program}
+                      programStage={programStage}
                     />
                   );
                 }

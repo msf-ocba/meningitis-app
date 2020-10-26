@@ -16,10 +16,9 @@ const query = {
       orgUnit,
       ouMode: "DESCENDANTS",
       program,
-      lastUpdatedStartDate: "2020-10-16",
+      lastUpdatedStartDate: `${initialExecutionDate}`,
       filter: `${dataElement}:eq:First visit`,
       skipPaging: "true",
-      //lastUpdatedDuration: "10d",
     }),
   },
 };
@@ -36,23 +35,28 @@ const EventList = ({ orgUnit, program, initialExecutionDate, dataElement }) => {
 
   useEffect(() => {
     console.log(
-      `Executing OutBreak App on the program: ${program} with the parent_orgUnit ${orgUnit} `
+      `Executing OutBreak App on the program: ${program} with the parent_orgUnit ${orgUnit} with the date ${initialExecutionDate}`
     );
   }, []);
 
   return (
     <>
       {loading && <span>...</span>}
-      {error && <span>{`ERROR: ${error.message}`}</span>}
+      {error && <p>{`ERROR: ${error.message}`}</p>}
       {data && (
         <>
           <pre>
             {data.events.events.map((ev, index) => (
               <React.Fragment key={ev.event}>
-                <CheckOrigin event={ev} />
+                <CheckOrigin
+                  event={ev}
+                  dataElement={dataElement}
+                  program={program}
+                  programStage={ev.programStage}
+                />
                 {index == data.events.events.length - 1 &&
                   console.log(
-                    `Program ${program} with ${data.events.events.length} events in orgUnit ${orgUnit}, updated! Event ${ev.event}`
+                    `Program ${program} with ${data.events.events.length} events in orgUnit ${orgUnit}, updated!`
                   )}
               </React.Fragment>
             ))}

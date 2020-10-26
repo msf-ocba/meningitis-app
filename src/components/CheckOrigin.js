@@ -9,13 +9,13 @@ Parent component: EventList
 Child component: CheckHAO
 **/
 
-const CheckOrigin = ({ event }) => {
+const CheckOrigin = ({ event, dataElement, program, programStage }) => {
   const query = {
     origin: {
       resource: "events",
       params: {
         trackedEntityInstance: `${event.trackedEntityInstance}`,
-        filter: "MZ5Ww7OZTgM:eq:Origin",
+        filter: `${dataElement}:eq:Origin`,
       },
     },
   };
@@ -36,6 +36,8 @@ const CheckOrigin = ({ event }) => {
                   event={event}
                   origin={true}
                   eventOrigin={ev}
+                  program={program}
+                  programStage={programStage}
                 />
               );
             })}
@@ -46,6 +48,8 @@ const CheckOrigin = ({ event }) => {
                   event={event}
                   origin={false}
                   eventOrigin={null}
+                  program={program}
+                  programStage={programStage}
                 />
               </>
             )}
