@@ -6,6 +6,9 @@ import { ProgramList } from "./ProgramList";
  * This component make a call to the API requesting
  * the tracker program list implemented in the instance with the
  * flag enabled (Attribute => "Include in Outbreak App").
+ * Besides, in this component are defined the DataStore values for:
+ *  - initialExecutionDate
+ *  - dataElement ("Type of visit")
  */
 
 function getCurrentDate() {

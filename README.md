@@ -1,6 +1,8 @@
-# Meningitis APP
+# Outbreak APP
 
 DHIS2 standard webapp which controls the generation and management of origin events for _Meningitis Linelist_ metadata.
+
+[Test](./UseCaseTests)
 
 ## Overview
 
@@ -75,8 +77,8 @@ Taking this in consideration:
 const appConfig = {
   url:
     process.env.REACT_APP_DHIS2_BASE_URL || window.localStorage.DHIS2_BASE_URL,
-        appName: process.env.REACT_APP_DHIS2_APP_NAME || "",
-        apiVersion: parseInt(process.env.REACT_APP_DHIS2_API_VERSION) || 30,
+  appName: process.env.REACT_APP_DHIS2_APP_NAME || "",
+  apiVersion: parseInt(process.env.REACT_APP_DHIS2_API_VERSION) || 30,
   /*
     This is the default value and for our example needs to be changed from 32 to 30 because 
     of the DHIS2 server's version from MSF-OCBA

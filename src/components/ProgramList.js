@@ -3,9 +3,11 @@ import { useDataEngine } from "@dhis2/app-runtime";
 import EventList from "./EventList";
 
 /**
- * For each program it retrieves an org unit associated to it and makes a
- * call to the API requesting the level of the parent org unit (level 4).
- * For each program and each parent org unit, eventList is executed.
+ * A request to the endpoint /api/programs/<program_id> it's being made
+ * for each program passed to the component through props. From this
+ * request, the level 4 orgUnit linked to the program is retrieved
+ * For each program and each org unit, eventList is executed with the
+ * initialExecutionDate defined in DataStore.
  */
 
 const PROGRAM_QUERY = {
