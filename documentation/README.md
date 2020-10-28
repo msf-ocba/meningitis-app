@@ -1,6 +1,6 @@
 # Use case tests
 
-This is the detailed description of the use case tests that are being made to the app to verify that all the new features implemented are working and the base Meningitis App functionality still works as it should.
+This is the detailed description of the use case tests that are being run against the app to verify that all the new features implemented are working and that the base Meningitis App functionality still works as it should.
 
 ## New features
 
@@ -17,7 +17,7 @@ This is the detailed description of the use case tests that are being made to th
 
 ---
 
-With this tests we want to see how the Outbreak App interacts with the DHIS2 DataStore.
+With these tests we expect to see how the Outbreak App interacts with the DHIS2 DataStore.
 
 ## Use case 1: Initial Outbreak App execution
 
