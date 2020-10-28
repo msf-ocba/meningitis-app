@@ -15,8 +15,6 @@ This is the detailed description of the use case tests that are being made to th
 
 ## DataStore
 
----
-
 With this tests we want to see how the Outbreak App interacts with the DHIS2 DataStore.
 
 ## Use case 1: Initial Outbreak App execution
@@ -56,8 +54,6 @@ In the DataStore Manager the values got updated:
 
 ## Parameter "program"
 
----
-
 The attribute "Include in Outbreak App" (IOA attribute) works as a flag for Outbreak App to decide whether the programs should be included during its execution or not. Only the programs with this attribute set to true will have their events analyzed by Outbreak App.
 
 ## Use case 3: Add a new program to the Outbreak App execution
@@ -84,6 +80,20 @@ Execute Outbreak App again and check the execution log, only Measles program sho
 
 ## Parameter "orgUnit"
 
+Adding the orgUnit as a parameter (along with the initialExecutionDate) make the Outbreak App able to be executed in a much more efficient way than Meningitis App. Outbreak App is executed at project level (level 4 in MSF's hierarchy), so it could be executed on some projects but not on others in the same mission (even if events are registered at level 5 or 6).
+
+    When configuring the access settings in a program to be included in Outbreak App, it is mandatory that not only the level 6 (health services => health structures) are assigned to the program, but the level 5 (health sites => health areas) as well, because the "origin type" of event it is created at level 5 (health area level) not at level 6 like the "first visit type" of event.
+
+## Use case 5: Assign new orgUnits to a program
+
+### Preparation
+
+Execute Outbreak App and check in the logs (in chrome's console) the programs and the orgUnits that are included in the execution. Go to maintenance and assign new orgUnits (level 5 and 6) to one of the programs included in the execution. Execute Outbreak App again and check the logs.
+
+### Expected Output
+
+The program and the parent orgUnit (level 4) of the new orgUnits assigned to the program should appear in the execution logs.
+
 ## Parameter "dataElement"
 
-## InitialExecutionDate
+## Parameter "initialExecutionDate"
