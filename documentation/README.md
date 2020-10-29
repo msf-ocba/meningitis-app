@@ -1,6 +1,6 @@
 # Use case tests
 
-This is the detailed description of the use case tests that are being run against the app to verify that all the new features implemented are working and that the base Meningitis App functionality still works as it should.
+This is the detailed description of the use case tests that have been run against the app to verify that all the new features implemented are working and that the original Meningitis App's functionality still works as it should.
 
 ## New features
 
