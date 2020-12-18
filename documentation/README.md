@@ -1,6 +1,6 @@
 # Use case tests
 
-This is the detailed description of the use case tests that are being run against the app to verify that all the new features implemented are working and that the base Meningitis App functionality still works as it should.
+This is the detailed description of the use case tests that have been run against the app to verify that all the new features implemented are working and that the original Meningitis App's functionality still works as it should.
 
 ## New features
 
@@ -39,6 +39,11 @@ Inside the settings key, two variables should get generated:
 - initialExecutionDate: (current time - 1 day)
 - dataElement: default id value
 
+In OutbreakApp UI (what is actually being executed):
+
+- initialExecutionDate: oldest date of creation from the list of programs involved
+- dataElement: default id value
+
 ## Use case 2: Following Outbreak App executions
 
 In Outbreak App's following executions the values of these two variables (initialExecutionDate and dataElement) should get updated.
@@ -52,6 +57,11 @@ After the initial execution of Outbreak App and with the outbreakApp's namespace
 In the DataStore Manager the values got updated:
 
 - initialExecutionDate: (current time - 1 day)
+- dataElement: modified id value
+
+In OutbreakApp UI (what is actually being executed):
+
+- initialExecutionDate: date from the last time the app was executed
 - dataElement: modified id value
 
 ## Parameter "program"
