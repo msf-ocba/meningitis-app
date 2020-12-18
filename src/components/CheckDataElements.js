@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UpdateFirstVisit from "./UpdateFirstVisit";
 
 /**
@@ -9,14 +9,23 @@ Parent component: CheckParent
 Child component: UpdateFirstVisit
  */
 
-const CheckDataElements = ({ event, origin, program, programStage }) => {
+const CheckDataElements = ({
+  event,
+  origin,
+  program,
+  programStage,
+  dataElement,
+  originDataElement,
+  referralDataElement,
+  attributeCategoryOptions,
+}) => {
   return (
     <>
       {event.dataValues.some(
-        (dataElement) => dataElement.dataElement == "FyftDLj4iSy"
+        (dataElement) => dataElement.dataElement == referralDataElement
       ) &&
         event.dataValues.map((referral) => {
-          if (referral.dataElement == "FyftDLj4iSy") {
+          if (referral.dataElement == referralDataElement) {
             return (
               <React.Fragment key={event.event}>
                 <UpdateFirstVisit
@@ -25,13 +34,17 @@ const CheckDataElements = ({ event, origin, program, programStage }) => {
                   ev={event}
                   program={program}
                   programStage={programStage}
+                  dataElement={dataElement}
+                  originDataElement={originDataElement}
+                  referralDataElement={referralDataElement}
+                  attributeCategoryOptions={attributeCategoryOptions}
                 />
               </React.Fragment>
             );
           }
         })}
       {!event.dataValues.some(
-        (dataElement) => dataElement.dataElement == "FyftDLj4iSy"
+        (dataElement) => dataElement.dataElement == referralDataElement
       ) && (
         <React.Fragment key={event.event}>
           <UpdateFirstVisit
@@ -40,6 +53,10 @@ const CheckDataElements = ({ event, origin, program, programStage }) => {
             ev={event}
             program={program}
             programStage={programStage}
+            dataElement={dataElement}
+            originDataElement={originDataElement}
+            referralDataElement={referralDataElement}
+            attributeCategoryOptions={attributeCategoryOptions}
           />
         </React.Fragment>
       )}

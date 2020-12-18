@@ -2,8 +2,6 @@
 
 DHIS2 standard webapp which controls the generation and management of origin events for _Meningitis Linelist_ metadata.
 
-[Test](./UseCaseTests)
-
 ## Overview
 
 _Meningitis App_ has been developed in _Javascript_ using _React_ framework as it is recommended by [DHIS2 core developer team](https://dhis2designlab.github.io/).

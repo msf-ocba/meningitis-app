@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDataQuery } from "@dhis2/app-runtime";
 import CreateOrigin from "./CreateOrigin";
 import UpdateOrigin from "./UpdateOrigin";
@@ -27,6 +27,10 @@ export const CheckParent = ({
   haoOrgunit,
   program,
   programStage,
+  dataElement,
+  originDataElement,
+  referralDataElement,
+  attributeCategoryOptions,
 }) => {
   const query = {
     parent: {
@@ -59,12 +63,20 @@ export const CheckParent = ({
                           ev={eventOrigin}
                           program={program}
                           programStage={programStage}
+                          dataElement={dataElement}
+                          originDataElement={originDataElement}
+                          referralDataElement={referralDataElement}
+                          attributeCategoryOptions={attributeCategoryOptions}
                         />
                         <CheckDataElements
                           event={event}
                           origin="false"
                           program={program}
                           programStage={programStage}
+                          dataElement={dataElement}
+                          originDataElement={originDataElement}
+                          referralDataElement={referralDataElement}
+                          attributeCategoryOptions={attributeCategoryOptions}
                         />
                       </React.Fragment>
                     );
@@ -77,6 +89,10 @@ export const CheckParent = ({
                         origin="false"
                         program={program}
                         programStage={programStage}
+                        dataElement={dataElement}
+                        originDataElement={originDataElement}
+                        referralDataElement={referralDataElement}
+                        attributeCategoryOptions={attributeCategoryOptions}
                       />
                     );
                   }
@@ -90,6 +106,10 @@ export const CheckParent = ({
                         origin="true"
                         program={program}
                         programStage={programStage}
+                        dataElement={dataElement}
+                        originDataElement={originDataElement}
+                        referralDataElement={referralDataElement}
+                        attributeCategoryOptions={attributeCategoryOptions}
                       />
                     </React.Fragment>
                   );
@@ -114,12 +134,20 @@ export const CheckParent = ({
                         eventDate={event.eventDate}
                         program={program}
                         programStage={programStage}
+                        dataElement={dataElement}
+                        originDataElement={originDataElement}
+                        referralDataElement={referralDataElement}
+                        attributeCategoryOptions={attributeCategoryOptions}
                       />
                       <CheckDataElements
                         event={event}
                         origin="false"
                         program={program}
                         programStage={programStage}
+                        dataElement={dataElement}
+                        originDataElement={originDataElement}
+                        referralDataElement={referralDataElement}
+                        attributeCategoryOptions={attributeCategoryOptions}
                       />
                     </React.Fragment>
                   );
@@ -131,6 +159,10 @@ export const CheckParent = ({
                       origin="true"
                       program={program}
                       programStage={programStage}
+                      dataElement={dataElement}
+                      originDataElement={originDataElement}
+                      referralDataElement={referralDataElement}
+                      attributeCategoryOptions={attributeCategoryOptions}
                     />
                   );
                 }

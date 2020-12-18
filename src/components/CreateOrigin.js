@@ -13,6 +13,10 @@ export const CreateOrigin = ({
   eventDate,
   program,
   programStage,
+  dataElement,
+  originDataElement,
+  referralDataElement,
+  attributeCategoryOptions,
 }) => {
   const mutation = {
     resource: "events",
@@ -34,7 +38,7 @@ export const CreateOrigin = ({
       status: "ACTIVE",
       dataValues: [
         {
-          dataElement: "MZ5Ww7OZTgM",
+          dataElement,
           value: "Origin",
         },
       ],

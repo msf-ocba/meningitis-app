@@ -25,6 +25,10 @@ export const CheckHAO = ({
   eventOrigin,
   program,
   programStage,
+  dataElement,
+  originDataElement,
+  referralDataElement,
+  attributeCategoryOptions,
 }) => {
   const query = {
     attributes: {
@@ -52,6 +56,10 @@ export const CheckHAO = ({
                     haoOrgunit={attribute.value}
                     program={program}
                     programStage={programStage}
+                    dataElement={dataElement}
+                    originDataElement={originDataElement}
+                    referralDataElement={referralDataElement}
+                    attributeCategoryOptions={attributeCategoryOptions}
                   />
                 </React.Fragment>
               );
@@ -82,6 +90,10 @@ export const CheckHAO = ({
                     haoOrgunit={attribute.value}
                     program={program}
                     programStage={programStage}
+                    dataElement={dataElement}
+                    originDataElement={originDataElement}
+                    referralDataElement={referralDataElement}
+                    attributeCategoryOptions={attributeCategoryOptions}
                   />
                 );
               }

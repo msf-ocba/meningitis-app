@@ -81,6 +81,9 @@ const initialMutation = {
   data: ({ dateList }) => ({
     initialExecutionDate: getInitialDate(dateList),
     dataElement: "MZ5Ww7OZTgM",
+    originDataElement: "S2GcSStnM9p",
+    referralDataElement: "FyftDLj4iSy",
+    attributeCategoryOptions: "rHGSHuG4Ts5",
   }),
 };
 
@@ -89,9 +92,17 @@ const followingMutation = {
   //last execution in the server
   resource: "dataStore/outbreakApp/settings",
   type: "update",
-  data: ({ dataElement }) => ({
+  data: ({
+    dataElement,
+    originDataElement,
+    referralDataElement,
+    attributeCategoryOptions,
+  }) => ({
     initialExecutionDate: getCurrentDate(),
     dataElement,
+    originDataElement,
+    referralDataElement,
+    attributeCategoryOptions,
   }),
 };
 
@@ -112,10 +123,21 @@ export const DataStore = () => {
       await mutate({ dateList });
       const response = await engine.query(DATASTORE_QUERY);
       await setData(response);
-      await mutate2({ dataElement: response.datastore.dataElement });
+      await mutate2({
+        dataElement: response.datastore.dataElement,
+        originDataElement: response.datastore.originDataElement,
+        referralDataElement: response.datastore.referralDataElement,
+        attributeCategoryOptions: response.datastore.attributeCategoryOptions,
+      });
     } else {
       //Otherwise
-      await mutate2({ dataElement: firstRequest.datastore.dataElement });
+      await mutate2({
+        dataElement: firstRequest.datastore.dataElement,
+        originDataElement: firstRequest.datastore.originDataElement,
+        referralDataElement: firstRequest.datastore.referralDataElement,
+        attributeCategoryOptions:
+          firstRequest.datastore.attributeCategoryOptions,
+      });
       await setData(firstRequest);
     }
   };
@@ -141,8 +163,20 @@ export const DataStore = () => {
               {JSON.stringify(data.datastore.initialExecutionDate)}
             </p>
             <p>
-              dataElement{": "}
+              dataElement First Visit{": "}
               {JSON.stringify(data.datastore.dataElement)}
+            </p>
+            <p>
+              dataElement Origin{": "}
+              {JSON.stringify(data.datastore.originDataElement)}
+            </p>
+            <p>
+              dataElement Referral{": "}
+              {JSON.stringify(data.datastore.referralDataElement)}
+            </p>
+            <p>
+              attributeCategoryOptions{": "}
+              {JSON.stringify(data.datastore.attributeCategoryOptions)}
             </p>
 
             <p>EXECUTION</p>
@@ -159,6 +193,9 @@ export const DataStore = () => {
               initialExecutionDate={data.datastore.initialExecutionDate}
               dataElement={data.datastore.dataElement}
               programs={programList}
+              originDataElement={data.datastore.originDataElement}
+              referralDataElement={data.datastore.referralDataElement}
+              attributeCategoryOptions={data.datastore.attributeCategoryOptions}
             />
           </>
         )}

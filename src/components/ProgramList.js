@@ -25,6 +25,9 @@ const PROGRAM_QUERY = {
 export const ProgramList = ({
   initialExecutionDate,
   dataElement,
+  originDataElement,
+  referralDataElement,
+  attributeCategoryOptions,
   programs,
 }) => {
   const [executionObjs, setExecutionObjs] = useState([]);
@@ -56,13 +59,11 @@ export const ProgramList = ({
         ),
       ],
     ]);
-
     const programs = programs1.map((program, i) => {
       if (program[0] === programs2[i][0]) {
         return Object.assign({}, program, programs2[i]);
       }
     });
-
     //This state update should happen conditionally in order to not enter into race conditions
     setProgramListIsLoaded(true);
 
@@ -115,10 +116,13 @@ export const ProgramList = ({
                 return (
                   <EventList
                     orgUnit={org}
+                    key={org}
                     program={program[0]}
                     initialExecutionDate={initialExecutionDate}
                     dataElement={dataElement}
-                    key={org}
+                    originDataElement={originDataElement}
+                    referralDataElement={referralDataElement}
+                    attributeCategoryOptions={attributeCategoryOptions}
                   />
                 );
               })

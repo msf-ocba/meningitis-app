@@ -23,13 +23,24 @@ const query = {
   },
 };
 
-const EventList = ({ orgUnit, program, initialExecutionDate, dataElement }) => {
+const EventList = ({
+  orgUnit,
+  program,
+  initialExecutionDate,
+  dataElement,
+  originDataElement,
+  referralDataElement,
+  attributeCategoryOptions,
+}) => {
   const { loading, error, data } = useDataQuery(query, {
     variables: {
       orgUnit,
       program,
       initialExecutionDate,
       dataElement,
+      originDataElement,
+      referralDataElement,
+      attributeCategoryOptions,
     },
   });
 
@@ -51,6 +62,9 @@ const EventList = ({ orgUnit, program, initialExecutionDate, dataElement }) => {
                 <CheckOrigin
                   event={ev}
                   dataElement={dataElement}
+                  originDataElement={originDataElement}
+                  referralDataElement={referralDataElement}
+                  attributeCategoryOptions={attributeCategoryOptions}
                   program={program}
                   programStage={ev.programStage}
                 />

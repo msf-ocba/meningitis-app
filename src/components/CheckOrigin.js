@@ -9,7 +9,15 @@ Parent component: EventList
 Child component: CheckHAO
 **/
 
-const CheckOrigin = ({ event, dataElement, program, programStage }) => {
+const CheckOrigin = ({
+  event,
+  dataElement,
+  program,
+  programStage,
+  originDataElement,
+  referralDataElement,
+  attributeCategoryOptions,
+}) => {
   const query = {
     origin: {
       resource: "events",
@@ -38,6 +46,10 @@ const CheckOrigin = ({ event, dataElement, program, programStage }) => {
                   eventOrigin={ev}
                   program={program}
                   programStage={programStage}
+                  dataElement={dataElement}
+                  originDataElement={originDataElement}
+                  referralDataElement={referralDataElement}
+                  attributeCategoryOptions={attributeCategoryOptions}
                 />
               );
             })}
@@ -50,6 +62,10 @@ const CheckOrigin = ({ event, dataElement, program, programStage }) => {
                   eventOrigin={null}
                   program={program}
                   programStage={programStage}
+                  dataElement={dataElement}
+                  originDataElement={originDataElement}
+                  referralDataElement={referralDataElement}
+                  attributeCategoryOptions={attributeCategoryOptions}
                 />
               </>
             )}

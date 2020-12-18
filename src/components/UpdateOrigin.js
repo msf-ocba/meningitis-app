@@ -7,7 +7,16 @@ the HAO attribute changes (or get corrected) to a different
 Health Area value.
 **/
 
-export const UpdateOrigin = ({ orgUnit, ev, program, programStage }) => {
+export const UpdateOrigin = ({
+  orgUnit,
+  ev,
+  program,
+  programStage,
+  dataElement,
+  originDataElement,
+  referralDataElement,
+  attributeCategoryOptions,
+}) => {
   const mutation = {
     resource: "events",
     type: "update",
@@ -29,10 +38,10 @@ export const UpdateOrigin = ({ orgUnit, ev, program, programStage }) => {
       trackedEntityInstance,
       enrollment,
       eventDate,
-      attributeCategoryOptions: "rHGSHuG4Ts5",
+      attributeCategoryOptions,
       dataValues: [
         {
-          dataElement: "MZ5Ww7OZTgM",
+          dataElement,
           value: "Origin",
         },
       ],
